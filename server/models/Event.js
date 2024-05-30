@@ -1,6 +1,5 @@
-const { Schema, model } = require*('mongoose');
-
-const taskSchema = require('./Task');
+const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose')
 
 const eventSchema = new Schema(
     {
@@ -44,7 +43,11 @@ const eventSchema = new Schema(
         details: {
             type: String,
         },
-        task_list: [taskSchema],
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User'
+        },    
     }
 )
 

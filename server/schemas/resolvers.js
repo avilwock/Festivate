@@ -23,17 +23,20 @@ const resolvers = {
       if (!user) {
         throw new AuthenticationError('Invalid credentials');
       }
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        throw new AuthenticationError('Invalid credentials');
-      }
-      const token = signToken(user);
-      return { token, user };
-    },
+      const correctPw = await user.isCorrectPassword(password);
+  
+            if (!correctPw) {
+                throw new AuthenticationError('Incorrect Password');
+            }
+  
+            const token = signToken(user);
+  
+            return { token, user };
+        },
     // Resolver for adding new user
     addUser: async (parent, { username, email, password }) => {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = await User.create({ username, email, password: hashedPassword });
+     
+      const user = await User.create({ username, email, password });
       const token = signToken(user);
       return { token, user };
     },
