@@ -35,12 +35,16 @@ type Mutation {
   login(email: String!, password: String!): Auth
   addUser(username: String!, email: String!, password: String!): Auth
   addEvent(name: String!, date: String!, location: String!): Event
-  addTask(description: String!): Event
-  completeTask(taskId: ID): Event
+  editEvent(name:String!, date: String!, location: String!): Event
+  deleteEvent(eventId: ID): Event
+  addTask(description: String!): Task
+  editTask(description: String!): Task
+  completeTask(taskId: ID): Task
 }
 
 schema {
   query: Query
+
   mutation: Mutation
 }
 `;

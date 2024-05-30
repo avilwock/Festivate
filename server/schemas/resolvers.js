@@ -53,6 +53,30 @@ const resolvers = {
       });
       return event;
     },
+    editEvent: async (parent, { eventId, name, date, location }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to edit an event');
+      }
+      const event = await Event.findOneAndUpdate(
+        { _id: eventId, user: context.user._id },
+        { name, date, location },
+        { new: true }
+      );
+      if (!event) {
+        throw new AuthenticationError('Event not found or you do not have permission to edit this event');
+      }
+      return event;
+    },
+deleteEvent: async (parent, {eventId}, context) => {
+  if (!context.user) {
+    throw new AuthenticationError('You need to be logged in to delete this event');
+  }
+  const event = await Event.findOneAndDelete({_id: eventId, user: context.userId});
+  if (!event) {
+    throw new AuthenticationError('Event not found');
+  }
+  return event;
+},
     // Resolver for adding a new task
     addTask: async (parent, { description, eventId }, context) => {
       if (!context.user) {
@@ -60,6 +84,21 @@ const resolvers = {
       }
       const task = await Task.create({ description, event: eventId });
       await Event.findByIdAndUpdate(eventId, { $push: { tasksList: task._id } });
+      return task;
+    },
+
+    editTask: async (parent, { text, taskId }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to edit a task');
+      }
+      const task = await Task.findOneAndUpdate(
+        { _id: taskId, user: context.user._id },
+        { text },
+        { new: true }
+      );
+      if (!task) {
+        throw new AuthenticationError('Event not found or you do not have permission to edit this task');
+      }
       return task;
     },
     // Resolver for marking a task complete
