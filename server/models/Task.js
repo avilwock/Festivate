@@ -12,6 +12,10 @@ const taskSchema = new Schema (
         required: true,
         ref: 'User'
     },    
+    details: {
+        type: String,
+        required: false
+    },  
 });
 
 const Task = model ('Task', taskSchema);
