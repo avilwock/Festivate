@@ -22,25 +22,27 @@ type Query {
   type Task {
     _id: ID!
     task_name: String!
+    details: String
   }
 
   input TaskInput {
     _id: ID!
     task_name: String!
+    details: String
   }
 
-type Mutation {
-  login(email: String!, password: String!): Auth
-  addUser(username: String!, email: String!, password: String!): Auth
-  addEvent(name: String!, date: String!, location: String!): Event
-  editEvent(name:String!, date: String!, location: String!): Event
-  deleteEvent(eventId: ID): Event
-
-  addTask(task_name: String!): Task
-  editTask(task_name: String!): Task
-
-  completeTask(taskId: ID): Task
-}
+  type Mutation {
+    login(email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
+    addEvent(name: String!, date: String!, location: String!): Event
+    editEvent(name:String!, date: String!, location: String!): Event
+    deleteEvent(eventId: ID): Event
+  
+    addTask(task_name: String!, details: String): Task
+    editTask(task_name: String!, details: String): Task
+  
+    completeTask(taskId: ID): Task
+  }
 
 schema {
   query: Query
