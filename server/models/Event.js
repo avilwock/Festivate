@@ -12,11 +12,11 @@ const eventSchema = new Schema(
             type: Number,
             min: 0
         },
-        date_time: {
+        date: {
             type: Date,
             required: true,
         },
-        venue: {
+        location: {
             type: String,
         },
         venue_layout: {
