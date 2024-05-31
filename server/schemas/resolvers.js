@@ -2,8 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User, Event, Task } = require('../models');
-const { AuthenticationError } = require('apollo-server-express');
-const { signToken } = require('../utils/auth');
+const { signToken, AuthenticationError } = require('../utils/auth')
 
 const resolvers = {
   // Resolver for fetching current user data
@@ -78,49 +77,53 @@ deleteEvent: async (parent, {eventId}, context) => {
   return event;
 },
     // Resolver for adding a new task
-    addTask: async (parent, { description, text }, context) => {
+    addTask: async (parent, { task_name }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to add a task');
       }
-      const task = await Task.create({ description, text });
+      const task = await Task.create({ task_name });
       return task;
     },
-    editTask: async (parent, { description, text }, context) => {
+    editTask: async (parent, { task_name }, context) => {
+
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to edit a task');
       }
       const task = await Task.findOneAndUpdate(
         {user: context.user._id },
-        { text },
+
+        {task_name },
         { new: true }
       );
       if (!task) {
-        throw new AuthenticationError('Event not found or you do not have permission to edit this task');
+        throw new AuthenticationError('Task not found or you do not have permission to edit this task');
       }
       return task;
     },
     // Resolver for marking a task complete
-    completeTask: async (parent, { description }, context) => {
+
+    completeTask: async (parent, { task_name }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to complete a task');
       }
-      const task = await Task.findByIdAndUpdate(description, { completed: true }, { new: true });
+      const task = await Task.findByIdAndUpdate(task_name, { completed: true }, { new: true });
+
       return task;
     },
   },
   // Resolver for task type
-  Task: {
-    event: async (parent) => {
-      return await Event.findById(parent.event); // find and return the event associate with the task
-    },
-  },
-  // Resolver for event type
-  Event: {
-    // Resolver function for taskList field
-    tasksList: async (parent) => {
-      return await Task.find({ _id: { $in: parent.tasksList } }); //find and return all tasks associate with the event
-    },
-  }
+  // Task: {
+  //   event: async (parent) => {
+  //     return await Event.findById(parent.event); // find and return the event associate with the task
+  //   },
+  // },
+  // // Resolver for event type
+  // Event: {
+  //   // Resolver function for taskList field
+  //   tasksList: async (parent) => {
+  //     return await Task.find({ _id: { $in: parent.tasksList } }); //find and return all tasks associate with the event
+  //   },
+  // }
 };
 
 module.exports = resolvers;

@@ -17,18 +17,16 @@ type Query {
     name: String!
     date: String!
     location: String
-    tasksList: [Task]
   }
 
   type Task {
     _id: ID!
-    description: String!
-    event: String!
+    task_name: String!
   }
 
   input TaskInput {
     _id: ID!
-    description: String!
+    task_name: String!
   }
 
 type Mutation {
@@ -37,8 +35,10 @@ type Mutation {
   addEvent(name: String!, date: String!, location: String!): Event
   editEvent(name:String!, date: String!, location: String!): Event
   deleteEvent(eventId: ID): Event
-  addTask(description: String!): Task
-  editTask(description: String!): Task
+
+  addTask(task_name: String!): Task
+  editTask(task_name: String!): Task
+
   completeTask(taskId: ID): Task
 }
 
