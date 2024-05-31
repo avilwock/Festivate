@@ -85,11 +85,13 @@ deleteEvent: async (parent, {eventId}, context) => {
       return task;
     },
     editTask: async (parent, { task_name }, context) => {
+
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to edit a task');
       }
       const task = await Task.findOneAndUpdate(
         {user: context.user._id },
+
         {task_name },
         { new: true }
       );
@@ -99,11 +101,13 @@ deleteEvent: async (parent, {eventId}, context) => {
       return task;
     },
     // Resolver for marking a task complete
+
     completeTask: async (parent, { task_name }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to complete a task');
       }
       const task = await Task.findByIdAndUpdate(task_name, { completed: true }, { new: true });
+
       return task;
     },
   },
