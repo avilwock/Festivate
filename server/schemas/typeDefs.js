@@ -1,11 +1,15 @@
 const typeDefs = `
 type Query {
   me: User
+  event(id: ID!): Event
+  task(id: ID!): Task
 }
   type User {
     _id: ID!
     username: String!
     email: String!
+    events: [Event]
+    tasks: [Task]
   }
   type Auth {
     token: String!
@@ -17,20 +21,22 @@ type Query {
     event_name: String!
     date: String!
     location: String
-    user: User!
+    user: User
   }
 
   type Task {
     _id: ID!
     task_name: String!
     details: String
-    user: User!
+    complete: Boolean
+    user: User
   }
 
   input TaskInput {
     _id: ID!
     task_name: String!
     details: String
+    complete: Boolean
   }
 
   type Mutation {
@@ -42,13 +48,13 @@ type Query {
   
     addTask(task_name: String!, details: String): Task
     editTask(taskId: ID!, task_name: String!, details: String): Task
-  
-    completeTask(taskId: ID): Task
+    deleteTask(taskId: ID): Task
+
+    completeTask(taskId: ID!): Task
   }
 
 schema {
   query: Query
-
   mutation: Mutation
 }
 `;

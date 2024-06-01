@@ -27,6 +27,21 @@ const userSchema = new Schema(
   }
 );
 
+userSchema.virtual('events', {
+  ref: 'Event',
+  localField: '_id',
+  foreignField: 'user',
+  justOne: false,
+});
+
+// Virtual for user's tasks
+userSchema.virtual('tasks', {
+  ref: 'Task',
+  localField: '_id',
+  foreignField: 'user',
+  justOne: false,
+});
+
 // hash user password
 userSchema.pre('save', async function (next) {
   if (this.isNew || this.isModified('password')) {
