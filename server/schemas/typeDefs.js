@@ -8,8 +8,7 @@ type Query {
     _id: ID!
     username: String!
     email: String!
-    events: [Event]
-    tasks: [Task]
+    events: [Event!]!
   }
   type Auth {
     token: String!
@@ -22,6 +21,7 @@ type Query {
     date: String!
     location: String
     user: User
+    tasks: [Task]!
   }
 
   type Task {
@@ -30,10 +30,10 @@ type Query {
     details: String
     complete: Boolean
     user: User
+    event: Event!
   }
 
   input TaskInput {
-    _id: ID!
     task_name: String!
     details: String
     complete: Boolean
@@ -44,13 +44,13 @@ type Query {
     addUser(username: String!, email: String!, password: String!): Auth
     addEvent(event_name: String!, date: String!, location: String!): Event
     editEvent(eventId: ID!, event_name:String!, date: String!, location: String!): Event
-    deleteEvent(eventId: ID): Event
+    deleteEvent(eventId: ID!): Event
   
-    addTask(task_name: String!, details: String): Task
-    editTask(taskId: ID!, task_name: String!, details: String): Task
-    deleteTask(taskId: ID): Task
+    addTask(task_name: String!, details: String, eventId: ID!, userId: ID!): Task
+    editTask(taskId: ID!, task_name: String!, details: String, complete: Boolean): Task
+    deleteTask(taskId: ID!): Task
 
-    completeTask(taskId: ID!): Task
+    #completeTask(taskId: ID!): Task
   }
 
 schema {

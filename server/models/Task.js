@@ -14,13 +14,18 @@ const taskSchema = new Schema (
     complete: {
         type: Boolean,
         required: true,
-        defaultValue: false
+        default: false
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-    },    
+    },
+    event: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Event'
+    }
 });
 
 const Task = model ('Task', taskSchema);
