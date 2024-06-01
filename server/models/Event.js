@@ -47,7 +47,11 @@ const eventSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: 'User'
-        },    
+        },
+        tasks: [{ 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Task' 
+        }]
     }
 )
 
