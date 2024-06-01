@@ -1,8 +1,10 @@
 const typeDefs = `
 type Query {
-  me: User
+  User: [User]!
+  user(id: ID!): User
   event(id: ID!): Event
   task(id: ID!): Task
+  me: User
 }
   type User {
     _id: ID!
