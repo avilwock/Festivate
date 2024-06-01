@@ -8,12 +8,69 @@ const resolvers = {
   // Resolver for fetching current user data
   Query: {
     me: async (parent, args, context) => {
-      if (context.user) {
-        const userData = await User.findById(context.user._id).select('-__v -password');
-        return userData;
+      try {
+        if (context.user) {
+          const userData = await User.findById(context.user._id)
+            .select('-__v -password')
+            .populate('events')
+            .populate('tasks');
+    
+          console.log('User data:', userData); // Add this console log
+    
+          if (!userData) {
+            console.log('User data not found');
+            return null;
+          }
+    
+          if (!userData.events) {
+            console.log('User has no events');
+          } else {
+            console.log('User events:', userData.events);
+          }
+    
+          if (!userData.tasks) {
+            console.log('User has no tasks');
+          } else {
+            console.log('User tasks:', userData.tasks);
+          }
+    
+          return userData;
+        } else {
+          throw new AuthenticationError('Not logged in');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error); // Add this console log
+        throw error;
       }
-      throw new AuthenticationError('Not logged in');
     },
+    
+
+event: async (parent, { id }, context) => {
+  try {
+    const eventData = await Event.findById(id).populate('user');
+
+    console.log('Event data:', eventData); // Add this console log
+
+    return eventData;
+  } catch (error) {
+    console.error('Error fetching event data:', error); // Add this console log
+    throw error;
+  }
+},
+
+task: async (parent, { id }, context) => {
+  try {
+    const taskData = await Task.findById(id).populate('user');
+
+    console.log('Task data:', taskData); // Add this console log
+
+    return taskData;
+  } catch (error) {
+    console.error('Error fetching task data:', error); // Add this console log
+    throw error;
+  }
+}
+    
     // event: async (parent, { id }, context) => {
     //   if (context.user) {
     //     const eventData = await Event.findById(id).select('-__v -password');
@@ -61,30 +118,26 @@ const resolvers = {
     },
     // Resolver for adding new event
     addEvent: async (parent, { event_name, date, location }, context) => {
-      if (context.user) {
-        try {
-          const newEvent = await Event.create({ event_name, date, location, user_id: context.user._id,});
-
-          const user = await User.findById(context.user._id);
-    
-          return {
-            ...newEvent._doc,
-            event: user // Populate the event field with user data
-          };
-        } catch (error) {
-          if (error.code === 11000 && error.keyPattern && error.keyValue) {
-            // Handle duplicate key error
-            throw new Error(`Event with event name '${event_name}' already exists`);
-          } else {
-            // Handle other errors
-            console.error("Error creating event:", error); // Log the error for debugging
-            throw new Error('Error creating event');
-          }
+      try {
+        if (context.user) {
+          throw new AuthenticationError('You must be logged in to create an event');
         }
-      }
-      throw new AuthenticationError('Not logged in');
-    },
     
+        const event = new Event({
+          event_name,
+          date,
+          location,
+          user: context.user._id
+        });
+    
+        const savedEvent = await event.save();
+        return savedEvent;
+      } catch (error) {
+        console.error('Error creating event:', error);
+        throw new Error('Error creating event');
+      }
+    },
+    //completed and works
     editEvent: async (parent, { eventId, event_name, date, location }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to edit an Event');
@@ -110,16 +163,26 @@ const resolvers = {
     
       return updatedEvent;
     },
-deleteEvent: async (parent, {eventId}, context) => {
-  if (!context.user) {
-    throw new AuthenticationError('You need to be logged in to delete this event');
-  }
-  const event = await Event.findOneAndDelete({_id: eventId, user: context.userId});
-  if (!event) {
-    throw new AuthenticationError('Event not found');
-  }
-  return event;
-},
+    deleteEvent: async (parent, { eventId }, context) => {
+      try {
+        if (!context.user) {
+          throw new AuthenticationError('You must be logged in to delete an event');
+        }
+    
+        // Find the event by ID and user ID to ensure the event belongs to the logged-in user
+        const deletedEvent = await Event.findOneAndDelete({ _id: eventId, user: context.user._id });
+    
+        if (!deletedEvent) {
+          throw new Error('Event not found or you do not have permission to delete this event');
+        }
+    
+        return deletedEvent;
+      } catch (error) {
+        console.error('Error deleting event:', error);
+        throw new Error('Error deleting event');
+      }
+    },
+    
     // Resolver for adding a new task
     addTask: async (parent, { task_name, details }, context) => {
       if (context.user) {
@@ -168,14 +231,37 @@ deleteEvent: async (parent, {eventId}, context) => {
     
       return updatedTask;
     },
-    completeTask: async (parent, { task_name, details }, context) => {
+    completeTask: async (parent, { taskId }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to complete a task');
       }
-      const task = await Task.findByIdAndUpdate(task_name, details, { completed: true }, { new: true });
+
+      const task = await Task.findByIdAndUpdate(
+        taskId,
+        { complete: true },
+        { new: true }
+      );
 
       return task;
     },
+    deleteTask: async ( parent, { taskId }, context) => {
+      try {
+        if (!context.user) {
+          throw new AuthenticationError('You must be logged in to delete a task')
+        }
+
+        const deletedTask = await Task.findOneAndDelete({ _id: taskId, user: context.user._id});
+
+        if (!deletedTask) {
+          throw new Error ('Task not found or you do not have permission to delete this task')
+        }
+
+        return deletedTask;
+      } catch (error) {
+        console.error('Error deleting task:', error);
+        throw new Error('Error deleting event');
+      }
+    }
   },
   // Resolver for task type
   // Task: {

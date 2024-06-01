@@ -7,15 +7,20 @@ const taskSchema = new Schema (
         type: String,
         required: true
     },
+    details: {
+        type: String,
+        required: false
+    },
+    complete: {
+        type: Boolean,
+        required: true,
+        defaultValue: false
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },    
-    details: {
-        type: String,
-        required: false
-    },  
 });
 
 const Task = model ('Task', taskSchema);
