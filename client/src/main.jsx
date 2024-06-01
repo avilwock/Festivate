@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Events from './pages/Events.jsx';
+import Tasks from './pages/Tasks.jsx';
 import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
@@ -29,6 +31,12 @@ const router = createBrowserRouter([
       }, {
         path: '/me',
         element: <Profile />
+      }, {
+        path: '/events',
+        element: <Events />
+      }, {
+        path: '/tasks',
+        element: <Tasks />
       }
     ]
   },
