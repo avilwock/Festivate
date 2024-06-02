@@ -43,10 +43,9 @@ const eventSchema = new Schema(
         details: {
             type: String,
         },
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User'
+        user: { type: mongoose.Schema.Types.ObjectId, 
+            required: true, 
+            ref: 'User' 
         },
         tasks: [{ 
             type: mongoose.Schema.Types.ObjectId, 

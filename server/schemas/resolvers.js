@@ -8,28 +8,10 @@ const resolvers = {
   // Resolver for fetching current user data
   Query: {
     me: async (parent, args, context) => {
-      try {
-        if (!context.user) {
-          throw new Error('You must be logged in to access this resource');
-        }
-        
-        // Fetch user data with populated events and tasks
-        const userData = await User.findById(context.user._id)
-          .populate({
-            path: 'events',
-            populate: { path: 'tasks' } // Populate tasks under each event
-          })
-          .exec();
-        
-        if (!userData) {
-          throw new Error('User data not found');
-        }
-        
-        return userData;
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        throw new Error('Error fetching user data');
+      if (!context.user) {
+        throw new AuthenticationError('You must be logged in to access this resource');
       }
+      return User.findById(context.user._id).populate({ path: 'events', populate: { path: 'tasks' } });
     },
     
 event: async (parent, { id }, context) => {
@@ -87,18 +69,14 @@ task: async (parent, { id }, context) => {
         throw new AuthenticationError('Invalid credentials');
       }
       const correctPw = await user.isCorrectPassword(password);
-  
-            if (!correctPw) {
-                throw new AuthenticationError('Incorrect Password');
-            }
-  
-            const token = signToken(user);
-  
-            return { token, user };
-        },
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect Password');
+      }
+      const token = signToken(user);
+      return { token, user };
+    },
     // Resolver for adding new user
     addUser: async (parent, { username, email, password }) => {
-     
       const user = await User.create({ username, email, password });
       const token = signToken(user);
       return { token, user };

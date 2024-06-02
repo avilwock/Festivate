@@ -1,10 +1,13 @@
+// client/src/pages/Tasks.jsx
 const Tasks = () => {
     return (
-        <div>
-            <h2>Tasks Page</h2>
-            <p>Insert tasks here</p>
-        </div>
+      <div>
+        <h2>Tasks Page</h2>
+        <p>Insert tasks here</p>
+      </div>
     );
-};
+  };
+  
+  export default Tasks;
 
-export default Tasks;
+  
