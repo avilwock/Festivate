@@ -20,6 +20,15 @@ type Query {
     event_name: String!
     date: String!
     location: String
+    budget: Number
+    venue_layout: String
+    invitations: String
+    guest_count: Number
+    theme: String
+    food_options: String
+    entertainment: String
+    decorations: String
+    details: String
     user: User
     tasks: [Task]!
   }
