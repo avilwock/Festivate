@@ -1,3 +1,4 @@
+// client/src/pages/Profile.jsx
 const Profile = () => {
     return (
       <div>

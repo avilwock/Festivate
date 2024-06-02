@@ -13,22 +13,21 @@ import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
-      { path: '/login', element: <Login /> },
-      { path: '/signup', element: <Signup /> },
-      { path: '/profiles/:profileId', element: <Profile /> },
-      { path: '/me', element: <Profile /> },
-      { path: '/events', element: <Events /> },
-      { path: '/tasks', element: <Tasks /> }
-    ]
+      { path: 'login', element: <Login /> },
+      { path: 'signup', element: <Signup /> },
+      { path: 'profiles/:profileId', element: <Profile /> },
+      { path: 'me', element: <Profile /> },
+      { path: 'events', element: <Events /> },
+      { path: 'tasks', element: <Tasks /> },
+    ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <RouterProvider router={router} />
 );
-

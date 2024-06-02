@@ -1,64 +1,18 @@
-// client/src/pages/Login.jsx
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import Auth from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [formState, setFormState] = useState({ email: '', password: '' });
-  const [login, { error, data }] = useMutation(LOGIN_USER);
+const Home = ({ setIsAuthenticated }) => {
+    const navigate = useNavigate();
+    const handleLogin = () => {
+        setIsAuthenticated(true);
+        navigate('/profile');
+    };
 
-  const handleChange = ({ target: { name, value } }) => {
-    setFormState(prevState => ({ ...prevState, [name]: value }));
-  };
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const { data } = await login({ variables: { ...formState } });
-      Auth.login(data.login.token);
-      setFormState({ email: '', password: '' });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Login</h4>
-          <div className="card-body">
-            {data ? (
-              <p>Success! You may now head <Link to="/">back to the homepage</Link>.</p>
-            ) : (
-              <form onSubmit={handleFormSubmit}>
-                <input
-                  className="form-input"
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
-                <input
-                  className="form-input"
-                  placeholder="Enter your password here"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                />
-                <button className="btn btn-block btn-info" type="submit">Submit</button>
-              </form>
-            )}
-            {error && <div className="my-3 p-3 bg-danger text-white">{error.message}</div>}
-          </div>
+    return (
+        <div>
+            <h1>Celebrations Perfected.</h1>
         </div>
-      </div>
-    </main>
-  );
+    );
 };
 
-export default Login;
+export default Home;

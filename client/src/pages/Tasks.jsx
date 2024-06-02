@@ -1,4 +1,3 @@
-// client/src/pages/Tasks.jsx
 const Tasks = () => {
     return (
       <div>
@@ -9,5 +8,4 @@ const Tasks = () => {
   };
   
   export default Tasks;
-
   
