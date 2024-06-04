@@ -18,7 +18,7 @@ type Query {
   type Event {
     _id: ID!
     event_name: String!
-    date: String!
+    date: String
     location: String
     budget: Float
     venue_layout: String

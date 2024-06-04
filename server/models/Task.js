@@ -16,11 +16,6 @@ const taskSchema = new Schema (
         required: true,
         default: false
     },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    },
     event: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
