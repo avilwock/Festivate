@@ -20,10 +20,10 @@ type Query {
     event_name: String!
     date: String!
     location: String
-    budget: Number
+    budget: Float
     venue_layout: String
     invitations: String
-    guest_count: Number
+    guest_count: Int
     theme: String
     food_options: String
     entertainment: String
@@ -51,15 +51,13 @@ type Query {
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
-    addEvent(event_name: String!, date: String!, location: String!): Event
-    editEvent(eventId: ID!, event_name:String!, date: String!, location: String!): Event
+    addEvent(event_name: String!, date: String, location: String, budget: Float, venue_layout: String, guest_count: Int, theme: String, food_options: String, entertainment: String, decorations: String, details: String, ): Event
+    editEvent(eventId: ID!, event_name:String, date: String, location: String): Event
     deleteEvent(eventId: ID!): Event
   
-    addTask(task_name: String!, details: String, eventId: ID!, userId: ID!): Task
-    editTask(taskId: ID!, task_name: String!, details: String, complete: Boolean): Task
+    addTask(task_name: String!, details: String, eventId: ID!, userId: ID): Task
+    editTask(taskId: ID!, task_name: String, details: String, complete: Boolean): Task
     deleteTask(taskId: ID!): Task
-
-    #completeTask(taskId: ID!): Task
   }
 
 schema {
