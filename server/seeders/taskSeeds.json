@@ -1,0 +1,23 @@
+[
+    {
+      "task_name": "Order Cake",
+      "details": "Order a chocolate cake",
+      "complete": false,
+      "user": "USER_ID_1",
+      "event": "EVENT_ID_1"
+    },
+    {
+      "task_name": "Book DJ",
+      "details": "Book a DJ for the evening",
+      "complete": false,
+      "user": "USER_ID_2",
+      "event": "EVENT_ID_2"
+    },
+    {
+        "task_name": "Send Invitations",
+        "details": "Send Invitations for the evening",
+        "complete": false,
+        "user": "USER_ID_3",
+        "event": "EVENT_ID_3"
+      }
+  ]

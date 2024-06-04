@@ -1,0 +1,14 @@
+[
+    {
+      "event_name": "Birthday Party",
+      "date": "2024-06-01",
+      "location": "123 Party St, Fun City",
+      "user": "USER_ID_1"
+    },
+    {
+      "event_name": "Wedding",
+      "date": "2024-07-15",
+      "location": "456 Celebration Ave, Joy Town",
+      "user": "USER_ID_2"
+    }
+  ]
