@@ -31,53 +31,27 @@ const resolvers = {
         throw new Error('Error fetching user data');
       }
     },
-    
-event: async (parent, { id }, context) => {
-  try {
-    const eventData = await Event.findById(id).populate('user');
+    event: async (parent, { id }, context) => {
+      try {
+        const eventData = await Event.findById(id).populate('tasks');
+        return eventData;
+      } catch (error) {
+        console.error('Error fetching event data:', error); // Add this console log
+        throw error;
+      }
+    },
+    task: async (parent, { id }, context) => {
+      try {
+        const taskData = await Task.findById(id)
+          .populate('event')
+          .exec();
 
-    console.log('Event data:', eventData); // Add this console log
-
-    return eventData;
-  } catch (error) {
-    console.error('Error fetching event data:', error); // Add this console log
-    throw error;
-  }
-},
-
-task: async (parent, { id }, context) => {
-  try {
-    const taskData = await Task.findById(id).populate('user');
-
-    console.log('Task data:', taskData); // Add this console log
-
-    return taskData;
-  } catch (error) {
-    console.error('Error fetching task data:', error); // Add this console log
-    throw error;
-  }
-}
-    
-    // event: async (parent, { id }, context) => {
-    //   if (context.user) {
-    //     const eventData = await Event.findById(id).select('-__v -password');
-    //     if (!eventData) {
-    //       throw new Error('Event not found');
-    //     }
-    //     return eventData;
-    //   }
-    //   throw new AuthenticationError('Not logged in');
-    // },
-    // task: async(parent, { id}, context) => {
-    //   if (context.user) {
-    //     const taskData = await Task.findById(id).select('-__v -password');
-    //     if (!taskData) {
-    //       throw new Error('Task not found');
-    //     }
-    //     return taskData;
-    //   }
-    //   throw new AuthenticationError('Not logged in');
-    // }
+        return taskData;
+      } catch (error) {
+        console.error('Error fetching task data:', error); // Add this console log
+        throw error;
+      }
+    }
   },
   Mutation: {
     // Resolver for user login
@@ -106,17 +80,14 @@ task: async (parent, { id }, context) => {
     // Resolver for adding new event
     addEvent: async (parent, { event_name, date, location }, context) => {
       try {
-        // Correct the authentication check
         if (!context.user) {
           throw new AuthenticationError('You must be logged in to create an event');
         }
-
         // Check if the event name already exists
         const existingEvent = await Event.findOne({ event_name });
         if (existingEvent) {
           throw new Error('An event with this name already exists');
         }
-
         // Create a new event
         const event = new Event({
           event_name,
@@ -124,7 +95,6 @@ task: async (parent, { id }, context) => {
           location,
           user: context.user._id
         });
-
         // Save the event
         const savedEvent = await event.save();
         return savedEvent; // Return the saved event directly
@@ -135,15 +105,10 @@ task: async (parent, { id }, context) => {
       }
     },
     //completed and works
-    editEvent: async (parent, { eventId, event_name, date, location }, context) => {
+    editEvent: async (parent, { eventId, event_name, date, location, venue_layout, invitations, guest_count, theme, food_options, entertainment, decorations, details }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to edit an Event');
       }
-      
-      // Log the eventId and other relevant information
-      console.log('Event ID:', eventId);
-      console.log('User ID:', context.user._id);
-      console.log(eventId, event_name, date, location);
       const updatedEvent = await Event.findOneAndUpdate(
         { _id: eventId, user: context.user._id }, // Check if the event belongs to the logged-in user
         { event_name, date, location }, 
@@ -151,13 +116,10 @@ task: async (parent, { id }, context) => {
         { new: true, populate: {path: 'user' } }
       );
       const query = { _id: eventId, user: context.user._id };
-      console.log('MongoDB Query:', query);
-      console.log('Updated Event:', updatedEvent); // Log the updated event
-    
+      
       if (!updatedEvent) {
         throw new Error('Event not found or you do not have permission to edit this Event');
       }
-    
       return updatedEvent;
     },
     deleteEvent: async (parent, { eventId }, context) => {
@@ -179,16 +141,14 @@ task: async (parent, { id }, context) => {
         throw new Error('Error deleting event');
       }
     },
-    
-    // Resolver for adding a new task
+     // Resolver for adding a new task
     addTask: async (parent, { task_name, details, eventId, userId }, context) => {
       try {
         // Check if the user is authenticated
         if (!context.user) {
           throw new AuthenticationError('You must be logged in to create a task');
         }
-    
-        // Create a new task
+            // Create a new task
         const task = new Task({
           task_name,
           details,
@@ -198,6 +158,8 @@ task: async (parent, { id }, context) => {
     
         // Save the task
         const savedTask = await task.save();
+
+        await Event.findByIdAndUpdate(eventId, { $push: { tasks: savedTask._id } });
     
         return savedTask;
     
@@ -206,25 +168,18 @@ task: async (parent, { id }, context) => {
         throw new Error('Error creating task');
       }
     },
-    
-    editTask: async (parent, { taskId, task_name, details }, context) => {
+    editTask: async (parent, { taskId, task_name, details, complete }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to edit a task');
       }
-      
-      // Log the taskId and other relevant information
-      console.log('Task ID:', taskId);
-      console.log('User ID:', context.user._id);
-      console.log(task_name, details);
+    
       const updatedTask = await Task.findOneAndUpdate(
         { _id: taskId, user: context.user._id }, // Check if the task belongs to the logged-in user
-        { task_name, details }, 
+        { task_name, details, complete }, 
         
         { new: true, populate: {path: 'user' } }
       );
       const query = { _id: taskId, user: context.user._id };
-      console.log('MongoDB Query:', query);
-      console.log('Updated Task:', updatedTask); // Log the updated task
     
       if (!updatedTask) {
         throw new Error('Task not found or you do not have permission to edit this task');
@@ -232,19 +187,6 @@ task: async (parent, { id }, context) => {
     
       return updatedTask;
     },
-    // completeTask: async (parent, { taskId }, context) => {
-    //   if (!context.user) {
-    //     throw new AuthenticationError('You need to be logged in to complete a task');
-    //   }
-
-    //   const task = await Task.findByIdAndUpdate(
-    //     taskId,
-    //     { complete: true },
-    //     { new: true }
-    //   );
-
-    //   return task;
-    // },
     deleteTask: async ( parent, { taskId }, context) => {
       try {
         if (!context.user) {
@@ -264,19 +206,7 @@ task: async (parent, { id }, context) => {
       }
     }
   },
-  // Resolver for task type
-  // Task: {
-  //   event: async (parent) => {
-  //     return await Event.findById(parent.event); // find and return the event associate with the task
-  //   },
-  // },
-  // // Resolver for event type
-  // Event: {
-  //   // Resolver function for taskList field
-  //   tasksList: async (parent) => {
-  //     return await Task.find({ _id: { $in: parent.tasksList } }); //find and return all tasks associate with the event
-  //   },
-  // }
 };
 
 module.exports = resolvers;
+
