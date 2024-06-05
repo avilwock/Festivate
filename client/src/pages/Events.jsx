@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
-import { ADD_EVENT, ADD_TASK } from '../utils/mutations';
+import { ADD_EVENT, ADD_TASK, EDIT_TASK } from '../utils/mutations';
 
 const Events = () => {
   const { loading, data, refetch } = useQuery(QUERY_ME);
   const [addEvent] = useMutation(ADD_EVENT);
   const [addTask] = useMutation(ADD_TASK);
+  const [editTask] = useMutation(EDIT_TASK);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
   const [userData, setUserData] = useState(null);
   const [formState, setFormState] = useState({ event_name: '', date: '', location: '' });
   const [taskFormState, setTaskFormState] = useState({ task_name: '' });
+  const [isEditing, setIsEditing] = useState(null);
+  const [editFormState, setEditFormState] = useState({ task_name:'', details: '', complete: ''})
 
   useEffect(() => {
     if (data) {
@@ -76,16 +79,16 @@ const Events = () => {
       const { data } = await addEvent({
         variables: { ...formState }
       });
-
+  
       if (data) {
         refetch();
         setFormState({ event_name: '', date: '', location: '' });
       }
     } catch (e) {
-      console.error(e);
+      console.error('Error adding event:', e);
     }
   };
-
+  
   const handleAddTask = async (event) => {
     event.preventDefault();
     try {
@@ -95,8 +98,39 @@ const Events = () => {
         setTaskFormState({ task_name: '' });
       }
     } catch (e) {
-      console.error(e);
+      console.error('Error adding task:', e);
     }
+  };
+  
+  const handleEditTask = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await editTask({
+        variables: { taskId: selectedTask, ...editFormState }
+      });
+  
+      if (data) {
+        refetch();
+        setIsEditing(null);
+        setEditFormState({ task_name: '', details: '' });
+      }
+    } catch (e) {
+      console.error('Error editing task:', e);
+      console.error('GraphQL errors:', e.graphQLErrors);
+      console.error('Network error:', e.networkError);
+      console.error('Extra info:', e.extraInfo);
+    }
+  };
+  
+const handleEditTaskChange = ({ target: { name, value } }) => {
+    setEditFormState({
+      ...editFormState,
+      [name]: value
+    });
+  };
+  const handleEditButtonClick = (task) => {
+    setIsEditing(task._id);
+    setEditFormState({ task_name: task.task_name, details: task.details, complete:task.complete})
   };
 
   if (loading) {
@@ -130,9 +164,36 @@ const Events = () => {
                           checked={task.complete}
                           onChange={() => handleTaskClick(task._id)}
                         />
-                        <label htmlFor={task._id}>
-                          {task.task_name} - {task.complete ? 'Complete' : 'Incomplete'}
-                        </label>
+                        {isEditing === task._id ? (
+                          <form onSubmit={handleEditTask}>
+                            <input
+                              type="text"
+                              name="task_name"
+                              value={editFormState.task_name}
+                              onChange={handleEditTaskChange}
+                            />
+                            <input
+                              type="text"
+                              name="details"
+                              value={editFormState.details}
+                              onChange={handleEditTaskChange}
+                            />
+                            <input
+                              type="boolean"
+                              name="complete"
+                              value={editFormState.complete}
+                              onChange={handleEditTaskChange}
+                            />
+                            <button type="submit">Save</button>
+                          </form>
+                        ) : (
+                          <div onClick={() => handleEditButtonClick(task)}>
+                            <label htmlFor={task._id}>
+                              {task.task_name} - {task.complete ? 'Complete' : 'Incomplete'}
+                            </label>
+                            <p>{task.details}</p>
+                          </div>
+                        )}
                       </li>
                     ))}
                     <form onSubmit={handleAddTask} id={event._id}>
@@ -190,6 +251,6 @@ const Events = () => {
       </form>
     </div>
   );
-};
+};  
 
 export default Events;
