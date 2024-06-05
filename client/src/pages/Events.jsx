@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
+import dayjs from 'dayjs';
 import { ADD_EVENT, ADD_TASK, EDIT_TASK, EDIT_EVENT } from '../utils/mutations';
+
 
 const Events = () => {
   const { loading, data, refetch } = useQuery(QUERY_ME);
@@ -61,6 +63,7 @@ const Events = () => {
   };
 
   const handleChange = ({ target: { name, value } }) => {
+    console.log(value)
     setFormState({
       ...formState,
       [name]: value
@@ -169,6 +172,8 @@ const Events = () => {
     return <div>No user data found</div>;
   }
 
+  console.log(selectedEvent)
+
   return (
     <div>
       <h2>My Events</h2>
@@ -181,6 +186,10 @@ const Events = () => {
               </button>
               {selectedEvent === event._id && (
                 <div>
+                 {/* Parse the date string into a Date object */}
+            {event.date && (
+              <p>Date: {event.date ? dayjs(event.date).format('MM/DD/YYYY') : 'Invalid Date'}</p>
+            )}
                   <form onSubmit={handleEditEvent}>
                     <input
                       type="text"
@@ -204,7 +213,6 @@ const Events = () => {
                     />
                     <button type="submit">Save Event</button>
                   </form>
-                  <p>Date: {new Date(event.date).toLocaleDateString()}</p>
                   <p>Location: {event.location}</p>
                   <h4>Tasks</h4>
                   <ul style={{ listStyleType: 'none' }}>

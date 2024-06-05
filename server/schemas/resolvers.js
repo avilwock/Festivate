@@ -21,7 +21,7 @@ const resolvers = {
         if (!userData) {
           throw new Error('User data not found');
         }
-        
+        console.log(userData)
         return userData;
       } catch (error) {
         console.error('Error fetching user data:', error);

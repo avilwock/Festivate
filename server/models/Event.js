@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const mongoose = require('mongoose')
+const { dateFormat } = require('../utils/dateFormat');
 
 const eventSchema = new Schema(
     {
@@ -13,7 +14,8 @@ const eventSchema = new Schema(
             min: 0
         },
         date: {
-            type: Date,
+            type: String,
+            // get: (timestamp) => dateFormat(timestamp),
         },
         location: {
             type: String,
