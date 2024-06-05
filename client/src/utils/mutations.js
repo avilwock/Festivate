@@ -1,4 +1,3 @@
-// client/src/utils/mutations.js
 import { gql } from '@apollo/client';
 
 export const ADD_PROFILE = gql`
@@ -133,8 +132,8 @@ export const DELETE_EVENT = gql`
 `;
 
 export const ADD_TASK = gql`
-  mutation addTask($task_name: String!, $details: String, $eventId: ID!) {
-    addTask(task_name: $task_name, details: $details, eventId: $eventId) {
+  mutation addTask($task_name: String!, $details: String, $eventId: ID!, $userId: ID) {
+    addTask(task_name: $task_name, details: $details, eventId: $eventId, userId: $userId) {
       _id
       task_name
       details

@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
-import { ADD_EVENT, ADD_TASK, EDIT_TASK } from '../utils/mutations';
+import { ADD_EVENT, ADD_TASK, EDIT_TASK, EDIT_EVENT } from '../utils/mutations';
 
 const Events = () => {
   const { loading, data, refetch } = useQuery(QUERY_ME);
   const [addEvent] = useMutation(ADD_EVENT);
   const [addTask] = useMutation(ADD_TASK);
   const [editTask] = useMutation(EDIT_TASK);
+  const [editEvent] = useMutation(EDIT_EVENT);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
   const [userData, setUserData] = useState(null);
   const [formState, setFormState] = useState({ event_name: '', date: '', location: '' });
   const [taskFormState, setTaskFormState] = useState({ task_name: '' });
   const [isEditing, setIsEditing] = useState(null);
-  const [editFormState, setEditFormState] = useState({ task_name:'', details: '', complete: ''})
+  const [editFormState, setEditFormState] = useState({ task_name: '', details: '', complete: false });
+  const [eventEditFormState, setEventEditFormState] = useState({ event_name: '', date: '', location: '' });
 
   useEffect(() => {
     if (data) {
-      console.log('Fetched data:', data);  // Verify data reception
       setUserData(data.me);
     }
   }, [data]);
@@ -73,13 +74,20 @@ const Events = () => {
     });
   };
 
+  const handleEventEditChange = ({ target: { name, value } }) => {
+    setEventEditFormState({
+      ...eventEditFormState,
+      [name]: value
+    });
+  };
+
   const handleAddEvent = async (event) => {
     event.preventDefault();
     try {
       const { data } = await addEvent({
         variables: { ...formState }
       });
-  
+
       if (data) {
         refetch();
         setFormState({ event_name: '', date: '', location: '' });
@@ -88,7 +96,7 @@ const Events = () => {
       console.error('Error adding event:', e);
     }
   };
-  
+
   const handleAddTask = async (event) => {
     event.preventDefault();
     try {
@@ -101,36 +109,56 @@ const Events = () => {
       console.error('Error adding task:', e);
     }
   };
-  
+
   const handleEditTask = async (event) => {
     event.preventDefault();
     try {
       const { data } = await editTask({
-        variables: { taskId: selectedTask, ...editFormState }
+        variables: { taskId: isEditing, ...editFormState }
       });
-  
+
       if (data) {
         refetch();
         setIsEditing(null);
-        setEditFormState({ task_name: '', details: '' });
+        setEditFormState({ task_name: '', details: '', complete: false });
       }
     } catch (e) {
       console.error('Error editing task:', e);
-      console.error('GraphQL errors:', e.graphQLErrors);
-      console.error('Network error:', e.networkError);
-      console.error('Extra info:', e.extraInfo);
     }
   };
-  
-const handleEditTaskChange = ({ target: { name, value } }) => {
+
+  const handleEditEvent = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await editEvent({
+        variables: { eventId: selectedEvent, ...eventEditFormState }
+      });
+
+      if (data) {
+        refetch();
+        setSelectedEvent(null);
+        setEventEditFormState({ event_name: '', date: '', location: '' });
+      }
+    } catch (e) {
+      console.error('Error editing event:', e);
+    }
+  };
+
+  const handleEditTaskChange = ({ target: { name, value } }) => {
     setEditFormState({
       ...editFormState,
       [name]: value
     });
   };
+
   const handleEditButtonClick = (task) => {
     setIsEditing(task._id);
-    setEditFormState({ task_name: task.task_name, details: task.details, complete:task.complete})
+    setEditFormState({ task_name: task.task_name, details: task.details, complete: task.complete });
+  };
+
+  const handleEditEventButtonClick = (event) => {
+    setSelectedEvent(event._id);
+    setEventEditFormState({ event_name: event.event_name, date: event.date, location: event.location });
   };
 
   if (loading) {
@@ -153,6 +181,29 @@ const handleEditTaskChange = ({ target: { name, value } }) => {
               </button>
               {selectedEvent === event._id && (
                 <div>
+                  <form onSubmit={handleEditEvent}>
+                    <input
+                      type="text"
+                      name="event_name"
+                      value={eventEditFormState.event_name}
+                      onChange={handleEventEditChange}
+                      required
+                    />
+                    <input
+                      type="date"
+                      name="date"
+                      value={eventEditFormState.date}
+                      onChange={handleEventEditChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="location"
+                      value={eventEditFormState.location}
+                      onChange={handleEventEditChange}
+                    />
+                    <button type="submit">Save Event</button>
+                  </form>
                   <p>Date: {new Date(event.date).toLocaleDateString()}</p>
                   <p>Location: {event.location}</p>
                   <h4>Tasks</h4>
@@ -165,30 +216,26 @@ const handleEditTaskChange = ({ target: { name, value } }) => {
                           onChange={() => handleTaskClick(task._id)}
                         />
                         {isEditing === task._id ? (
-                          <form onSubmit={handleEditTask}>
-                            <input
-                              type="text"
-                              name="task_name"
-                              value={editFormState.task_name}
-                              onChange={handleEditTaskChange}
-                            />
-                            <input
-                              type="text"
-                              name="details"
-                              value={editFormState.details}
-                              onChange={handleEditTaskChange}
-                            />
-                            <input
-                              type="boolean"
-                              name="complete"
-                              value={editFormState.complete}
-                              onChange={handleEditTaskChange}
-                            />
-                            <button type="submit">Save</button>
-                          </form>
+                          <div>
+                            <form onSubmit={handleEditTask}>
+                              <input
+                                type="text"
+                                name="task_name"
+                                value={editFormState.task_name}
+                                onChange={handleEditTaskChange}
+                              />
+                              <input
+                                type="text"
+                                name="details"
+                                value={editFormState.details}
+                                onChange={handleEditTaskChange}
+                              />
+                              <button type="submit">Save</button>
+                            </form>
+                          </div>
                         ) : (
                           <div onClick={() => handleEditButtonClick(task)}>
-                            <label htmlFor={task._id}>
+                            <label>
                               {task.task_name} - {task.complete ? 'Complete' : 'Incomplete'}
                             </label>
                             <p>{task.details}</p>
@@ -251,6 +298,7 @@ const handleEditTaskChange = ({ target: { name, value } }) => {
       </form>
     </div>
   );
-};  
+};
+
 
 export default Events;

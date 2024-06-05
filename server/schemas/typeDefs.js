@@ -52,7 +52,7 @@ type Query {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     addEvent(event_name: String!, date: String, location: String, budget: Float, venue_layout: String, guest_count: Int, theme: String, food_options: String, entertainment: String, decorations: String, details: String, ): Event
-    editEvent(eventId: ID!, event_name:String, date: String, location: String): Event
+    editEvent(eventId: ID!, event_name:String, date: String, location: String, budget: Float, venue_layout: String, guest_count: Int, theme: String, food_options: String, entertainment: String, decorations: String, details: String): Event
     deleteEvent(eventId: ID!): Event
   
     addTask(task_name: String!, details: String, eventId: ID!, userId: ID): Task
