@@ -1,7 +1,101 @@
-header {
+.header-link {
+  color: white !important;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
   background-color: #333;
   color: white;
   padding: 1rem;
+}
+
+.header .container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header h1 {
+  margin-bottom: 1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav-links a {
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.nav-links a:hover {
+  background: #555;
+}
+
+.nav-links .btn {
+  margin: 0.5rem;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  margin: 0;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+input,
+button {
+  font-family: inherit;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
 }
 
 header nav ul {
@@ -28,7 +122,6 @@ header nav ul li button:hover {
   background: #555;
 }
 
-h1,
 h2 {
   color: #333;
 }
@@ -69,8 +162,7 @@ button:hover {
 }
 
 .profile-page,
-.events-page,
-.tasks-page {
+.events-page {
   padding: 2rem;
   background-color: white;
   border-radius: 8px;
@@ -79,5 +171,5 @@ button:hover {
 }
 
 .complete {
-  text-decoration: line-through
+  text-decoration: line-through;
 }
