@@ -1,4 +1,3 @@
-// client/src/utils/queries.js
 import { gql } from '@apollo/client';
 
 export const QUERY_ME = gql`
@@ -23,6 +22,7 @@ export const QUERY_ME = gql`
         tasks {
           _id
           task_name
+          details
           complete
         }
       }
@@ -48,6 +48,7 @@ export const QUERY_EVENT = gql`
       tasks {
         _id
         task_name
+        details
         complete
       }
     }
