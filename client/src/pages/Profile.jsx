@@ -8,7 +8,7 @@ const Profile = () => {
   const { loading, data } = useQuery(QUERY_ME);
   const [editTask] = useMutation(EDIT_TASK);
   const userData = data?.me || {};
-  
+
   // Sort events by date
   const sortedEvents = userData.events?.slice().sort((a, b) => new Date(a.date) - new Date(b.date)) || [];
 
@@ -44,18 +44,22 @@ const Profile = () => {
           {sortedEvents.length ? (
             <ul>
               {sortedEvents.map((event) => (
-                <li key={event._id}>
-                  <h4>{event.event_name}</h4>
-                  <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-                  <p>Location: {event.location}</p>
-                  <h5>Tasks</h5>
-                  <ul>
-                    {event.tasks.map((task) => (
-                      <li key={task._id} style={{ textDecoration: task.complete ? 'line-through' : 'none' }}>
-                        {task.task_name} - {task.complete ? 'Complete' : 'Incomplete'}
-                      </li>
-                    ))}
-                  </ul>
+                <li key={event._id} className="event">
+                  <div className="event-info">
+                    <h4>{event.event_name}</h4>
+                    <p>Date: {new Date(event.date).toLocaleDateString()}</p>
+                    <p>Location: {event.location}</p>
+                  </div>
+                  <div className="event-tasks">
+                    <h5>Tasks</h5>
+                    <ul>
+                      {event.tasks.map((task) => (
+                        <li key={task._id} style={{ textDecoration: task.complete ? 'line-through' : 'none' }}>
+                          {task.task_name} - {task.complete ? 'Complete' : 'Incomplete'}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </li>
               ))}
             </ul>

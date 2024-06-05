@@ -173,3 +173,105 @@ button:hover {
 .complete {
   text-decoration: line-through;
 }
+
+/*Profile page CSS*/
+
+.profile-page {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.events-tasks-container {
+  display: flex;
+}
+
+.events-section {
+  width: 70%;
+}
+
+.tasks-section {
+  width: 30%;
+  padding-left: 2rem;
+  border-left: 1px solid #ccc;
+}
+
+.events-section ul,
+.tasks-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.events-section li,
+.tasks-section li {
+  margin-bottom: 1rem;
+}
+
+.events-section li {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.events-section li:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+
+
+.events-section .event {
+  border-bottom: 1px solid #ccc;
+}
+
+.events-section .event:last-child {
+  border-bottom: none;
+}
+
+
+
+.events-section h4 {
+  margin-bottom: 0.5rem;
+}
+
+.events-section p {
+  margin-bottom: 0.25rem;
+}
+
+.events-section h5 {
+  margin-top: 1rem;
+}
+
+.tasks-section h3 {
+  margin-bottom: 1rem;
+}
+
+.tasks-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.events-section li:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.events-tasks-container {
+  display: flex;
+  justify-content: space-between;
+  /* Align containers to each end */
+}
+
+.event {
+  display: flex;
+}
+
+.event-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-tasks {
+  margin-left: 10rem;
+}
