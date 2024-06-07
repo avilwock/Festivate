@@ -72,7 +72,7 @@ const EventDetails = () => {
   return (
     <div>
       <h2>{eventEditFormState.event_name}</h2>
-      <p>Date: {eventEditFormState.date ? dayjs(eventEditFormState.date).format('MM/DD/YYYY') : 'Invalid Date'}</p>
+      <p>Date: {eventEditFormState.date ? dayjs(eventEditFormState.date).format('MM/DD/YYYY hh:mm') : 'Invalid Date'}</p>
       <p>Location: {eventEditFormState.location}</p>
 
       {isEditing ? (
@@ -87,7 +87,7 @@ const EventDetails = () => {
           />
           <input
             type="date"
-            name="date"
+            name="datetime-local"
             value={eventEditFormState.date}
             onChange={handleEditChange}
             required
