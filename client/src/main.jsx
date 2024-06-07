@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Events from './pages/Events.jsx';
+import EventPage from './pages/EventPage.jsx';
 import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       { path: 'profiles/:profileId', element: <Profile /> },
       { path: 'me', element: <Profile /> },
       { path: 'events', element: <Events /> },
+      { path: 'events/:eventId', element: <EventPage /> }
     ],
   },
 ]);
