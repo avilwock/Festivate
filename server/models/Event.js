@@ -1,13 +1,11 @@
 const { Schema, model } = require('mongoose');
 const mongoose = require('mongoose')
-const { dateFormat } = require('../utils/dateFormat');
 
 const eventSchema = new Schema(
     {
         event_name: {
             type: String,
             required: true,
-            unique: true,
         },
         budget: {
             type: Number,
@@ -15,7 +13,6 @@ const eventSchema = new Schema(
         },
         date: {
             type: String,
-            // get: (timestamp) => dateFormat(timestamp),
         },
         location: {
             type: String,
@@ -54,7 +51,7 @@ const eventSchema = new Schema(
             ref: 'Task' 
         }]
     }
-)
+);
 
 const Event = model('Event', eventSchema);
 module.exports = Event;
