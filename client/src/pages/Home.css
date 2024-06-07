@@ -23,8 +23,9 @@
 }
 
 .event-image {
-    width: 1000px;
-    height: 750px;
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
     object-fit: cover;
     border-radius: 10px;
 }
@@ -36,4 +37,26 @@
     padding: 10px;
     background: #f9f9f9;
     border-radius: 10px;
+}
+
+/* Media Queries for responsiveness */
+@media (min-width: 600px) {
+    .slogan {
+        font-size: 2rem;
+    }
+
+    .home-summary {
+        font-size: 1.25rem;
+    }
+}
+
+@media (min-width: 900px) {
+    .slogan {
+        font-size: 2.5rem;
+    }
+
+    .home-summary {
+        font-size: 1.5rem;
+        max-width: 800px;
+    }
 }
