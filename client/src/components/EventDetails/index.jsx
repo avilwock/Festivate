@@ -86,8 +86,8 @@ const EventDetails = () => {
             required
           />
           <input
-            type="date"
-            name="datetime-local"
+            type="datetime-local"
+            name="date"
             value={eventEditFormState.date}
             onChange={handleEditChange}
             required
