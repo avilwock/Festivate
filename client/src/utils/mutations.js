@@ -132,8 +132,8 @@ export const DELETE_EVENT = gql`
 `;
 
 export const ADD_TASK = gql`
-  mutation addTask($task_name: String!, $details: String, $eventId: ID!, $userId: ID) {
-    addTask(task_name: $task_name, details: $details, eventId: $eventId, userId: $userId) {
+  mutation addTask($task_name: String!, $details: String, $eventId: ID!) {
+    addTask(task_name: $task_name, details: $details, eventId: $eventId) {
       _id
       task_name
       details
@@ -161,3 +161,4 @@ export const DELETE_TASK = gql`
     }
   }
 `;
+

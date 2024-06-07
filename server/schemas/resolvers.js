@@ -138,7 +138,7 @@ const resolvers = {
       }
     
       const updatedTask = await Task.findOneAndUpdate(
-        { _id: taskId, user: context.user._id },
+        { _id: taskId},
         { task_name, details, complete },
         { new: true }
       ).populate('user');
@@ -154,7 +154,9 @@ const resolvers = {
         throw new AuthenticationError('You must be logged in to delete a task');
       }
 
-      const deletedTask = await Task.findOneAndDelete({ _id: taskId, user: context.user._id });
+      console.log('taskId', taskId)
+
+      const deletedTask = await Task.findOneAndDelete({ _id: taskId });
 
       if (!deletedTask) {
         throw new Error('Task not found or you do not have permission to delete this task');
@@ -166,3 +168,4 @@ const resolvers = {
 };
 
 module.exports = resolvers;
+

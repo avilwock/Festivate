@@ -1,9 +1,11 @@
+// client/src/components/EventDetails/index.jsx
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams, useNavigate } from 'react-router-dom';
 import { QUERY_EVENT, QUERY_ME } from '../../utils/queries';
 import { EDIT_EVENT, DELETE_EVENT } from '../../utils/mutations';
 import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
+import TaskDetails from '../TaskDetails';
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -107,6 +109,8 @@ const EventDetails = () => {
           <button onClick={handleDelete}>Delete</button>
         </>
       )}
+
+      <TaskDetails />
     </div>
   );
 };
