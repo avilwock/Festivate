@@ -84,7 +84,7 @@ const Events = () => {
                 
               <div>
                 {event.date && (
-                  <p>Date: {event.date ? dayjs(event.date).format('MM/DD/YYYY') : 'Invalid Date'}</p>
+                  <p>Date: {event.date ? dayjs(event.date).format('MM/DD/YYYY hh:mm') : 'Invalid Date'}</p>
                 )}
                 {event.location && (
                   <p>Location: { event.location}</p>
@@ -127,7 +127,7 @@ const Events = () => {
           className="form-input"
           placeholder="Date"
           name="date"
-          type="date"
+          type="datetime-local"
           value={formState.date}
           onChange={handleChange}
           required
