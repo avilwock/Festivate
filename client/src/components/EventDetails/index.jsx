@@ -72,13 +72,13 @@ const EventDetails = () => {
   };
 
   return (
-    <div>
+    <div className="profile-page">
       <h2>{eventEditFormState.event_name}</h2>
       <p>Date: {eventEditFormState.date ? dayjs(eventEditFormState.date).format('MM/DD/YYYY hh:mm') : 'Invalid Date'}</p>
       <p>Location: {eventEditFormState.location}</p>
 
       {isEditing ? (
-        <form onSubmit={handleEditSubmit}>
+        <form onSubmit={handleEditSubmit} className="event-form">
           <input
             type="text"
             name="event_name"
@@ -86,6 +86,7 @@ const EventDetails = () => {
             onChange={handleEditChange}
             placeholder="Event Name"
             required
+            className="form-input"
           />
           <input
             type="datetime-local"
@@ -93,6 +94,7 @@ const EventDetails = () => {
             value={eventEditFormState.date}
             onChange={handleEditChange}
             required
+            className="form-input"
           />
           <input
             type="text"
@@ -100,6 +102,7 @@ const EventDetails = () => {
             value={eventEditFormState.location}
             onChange={handleEditChange}
             placeholder="Location"
+            className="form-input"
           />
           <button type="submit">Save</button>
         </form>

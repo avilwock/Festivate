@@ -275,3 +275,162 @@ button:hover {
 .event-tasks {
   margin-left: 10rem;
 }
+
+/* Event page CSS */
+
+.events-page {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.events-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.events-page h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.event-item {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-item:hover {
+  background-color: #f0f0f0;
+}
+
+.event-button {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+.event-details {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-top: 1px solid #ddd;
+  width: 100%;
+  text-align: center;
+}
+
+.event-details p {
+  margin: 0.25rem 0;
+}
+
+
+.event-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-input-container {
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+
+.modal-header {
+  background-color: #333;
+  color: white;
+  text-align: center;
+}
+
+.modal-footer {
+  justify-content: center;
+  text-align: center;
+  padding: .75rem;
+}
+
+/* Tasks CSS */
+
+.task-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0;
+}
+
+/*
+.task-details-container {
+  display: flex;
+}
+
+.task-form {
+  flex: 1;
+}
+
+.task-list {
+  flex: 1;
+  padding: 10rem;
+} */
+
+.task-details-container {
+  display: flex;
+}
+
+.task-form {
+  flex: 1;
+  padding: 1rem;
+  border-right: 1px solid #ccc;
+}
+
+.task-list {
+  flex: 1;
+  padding: 1rem;
+}
+
+.task-list ul {
+  margin: 0;
+  padding: 0;
+}
+
+.task-list li {
+  margin-bottom: 0.5rem;
+}
+
+.task-list li:last-child {
+  margin-bottom: 0;
+}
+
+.task-list li span {
+  display: block;
+  margin-bottom: 0.5rem;
+}
