@@ -99,7 +99,7 @@ const resolvers = {
         { _id: eventId, user: context.user._id },
         { event_name, date, location, budget, venue_layout, guest_count, theme, food_options, entertainment, decorations, details },
         { new: true }
-      ).populate('user');
+      ).populate('tasks')
       
       if (!updatedEvent) {
         throw new Error('Event not found or you do not have permission to edit this Event');
