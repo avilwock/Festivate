@@ -16,7 +16,7 @@ const TaskDetails = () => {
   const [deleteTask] = useMutation(DELETE_TASK, {
     refetchQueries: [QUERY_EVENT, "event"]
   });
-  const [taskFormState, setTaskFormState] = useState({ task_name: '', details: '' });
+  const [taskFormState, setTaskFormState] = useState({ task_name: '', details: '', complete: false });
   const [isEditing, setIsEditing] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
 
@@ -25,10 +25,10 @@ const TaskDetails = () => {
 
   const { event } = data;
 
-  const handleTaskChange = ({ target: { name, value } }) => {
+  const handleTaskChange = ({ target: { name, value, type, checked } }) => {
     setTaskFormState({
       ...taskFormState,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked:value,
     });
   };
 
@@ -53,12 +53,16 @@ const TaskDetails = () => {
         console.error('Error adding task:', e);
       }
     }
-    setTaskFormState({ task_name: '', details: '' });
+    setTaskFormState({ task_name: '', details: '', complete: false });
     setIsEditing(false);
   };
 
   const handleEditTask = (task) => {
-    setTaskFormState({ task_name: task.task_name, details: task.details });
+    setTaskFormState({ 
+      task_name: task.task_name, 
+      details: task.details, 
+      complete: Boolean(task.complete)
+    });
     setIsEditing(true);
     setCurrentTaskId(task._id);
   };
@@ -73,6 +77,26 @@ const TaskDetails = () => {
       console.error('Error deleting task:', e);
     }
   };
+
+  const handleTaskCompletion = async (task) => {
+    try {
+      await editTask({
+        variables: {
+          taskId: task._id,
+          task_name: task.task_name,
+          details: task.details,
+          complete: !task.complete,
+        },
+      });
+      refetch();
+    } catch (e) {
+      console.error('Error toggling task completion:', e);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="task-details-container">
@@ -96,16 +120,45 @@ const TaskDetails = () => {
             placeholder="Details"
             className="form-input"
           />
+          <input
+            type= "checkbox"
+            name= "complete"
+            value = { taskFormState.complete}
+            onChange = {handleTaskChange}
+            className = "form-input"
+          />
           <button type="submit">{isEditing ? 'Save Task' : 'Add Task'}</button>
         </form>
       </div>
       <div className="task-list">
         <ul>
+
+        <li key={event._id} className="event">
+                  <div className="event-info">
+                    <h4>{event.event_name}</h4>
+                    <p>Date: {new Date(event.date).toLocaleDateString()}</p>
+                    <p>Location: {event.location}</p>
+                  </div>
+                  <div className="event-tasks">
+                    <h5>Tasks</h5>
+                    <ul>
+                      {event.tasks.map((task) => (
+                        <li key={task._id} style={{ textDecoration: task.complete ? 'line-through' : 'none' }}>
+                          {task.task_name} - {task.complete ? 'Complete' : 'Incomplete'}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </li>
           {event.tasks.map((task) => (
             <li key={task._id}>
               <span style={{ textDecoration: task.complete ? 'line-through' : 'none' }}>
                 {task.task_name} - {task.details}
               </span>
+              <input type="checkbox"
+              checked={task.complete}
+              onChange={() => handleTaskCompletion(task)}
+              />
               <button onClick={() => handleEditTask(task)}>Edit</button>
               <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
             </li>
