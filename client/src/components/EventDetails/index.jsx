@@ -16,7 +16,7 @@ const EventDetails = () => {
   const [editEvent] = useMutation(EDIT_EVENT);
   const [deleteEvent] = useMutation(DELETE_EVENT);
   const [isEditing, setIsEditing] = useState(false);
-  const [eventEditFormState, setEventEditFormState] = useState({ event_name: '', date: '', location: '' });
+  const [eventEditFormState, setEventEditFormState] = useState({ event_name: '', date: '', location: '', venue_layout: '', theme: '' });
 
   useEffect(() => {
     if (data) {
@@ -25,6 +25,8 @@ const EventDetails = () => {
         event_name: event.event_name,
         date: event.date,
         location: event.location,
+        venue_layout: event.venue_layout,
+        theme: event.theme
       });
     }
   }, [data]);
@@ -102,6 +104,22 @@ const EventDetails = () => {
             value={eventEditFormState.location}
             onChange={handleEditChange}
             placeholder="Location"
+            className="form-input"
+          />
+           <input
+            type="text"
+            name="venue_layout"
+            value={eventEditFormState.venue_layout}
+            onChange={handleEditChange}
+            placeholder="Venue Layout"
+            className="form-input"
+          />
+          <input
+            type="text"
+            name="theme"
+            value={eventEditFormState.theme}
+            onChange={handleEditChange}
+            placeholder="Theme"
             className="form-input"
           />
           <button type="submit">Save</button>
