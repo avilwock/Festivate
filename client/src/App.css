@@ -319,6 +319,13 @@ button:hover {
   align-items: center;
 }
 
+.event-item button {
+  width: 300px;
+  padding: 10px;
+  text-align: center;
+
+}
+
 .event-item:hover {
   background-color: #f0f0f0;
 }
