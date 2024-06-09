@@ -16,8 +16,8 @@ const Events = () => {
     event_name: '',
     date: '',
     location: '',
-    budget: '',
-    guest_count: '',
+    budget:null,
+    guest_count: null,
     venue_layout: '',
     theme: '',
     food_options: '',
@@ -33,8 +33,8 @@ const Events = () => {
       event_name: '',
       date: '',
       location: '',
-      budget: '',
-      guest_count: '',
+      budget: null,
+      guest_count: null,
       venue_layout: '',
       theme: '',
       food_options: '',
@@ -62,6 +62,7 @@ const Events = () => {
   };
 
   const handleChange = ({ target: { name, value } }) => {
+    console.log("Name:", name, "Value:", value);
     setFormState({
       ...formState,
       [name]: value,
@@ -71,10 +72,18 @@ const Events = () => {
   const handleAddEvent = async (event) => {
     event.preventDefault();
     try {
+      // Convert budget and guest_count to numeric values
+      const budgetValue = parseFloat(formState.budget); // Convert to float
+      const guestCountValue = parseInt(formState.guest_count); // Convert to integer
+ 
       const { data } = await addEvent({
-        variables: { ...formState },
+        variables: {
+          ...formState,
+          budget: budgetValue,
+          guest_count: guestCountValue,
+        },
       });
-
+  
       if (data) {
         refetch();
         handleClose();
