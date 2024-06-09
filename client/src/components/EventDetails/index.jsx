@@ -43,6 +43,7 @@ const EventDetails = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   const handleEditChange = ({ target: { name, value } }) => {
+    
     setEventEditFormState({
       ...eventEditFormState,
       [name]: value,
@@ -52,8 +53,17 @@ const EventDetails = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Parse budget and guest_count before submitting
+      const budgetValue = parseFloat(eventEditFormState.budget);
+      const guestCountValue = parseInt(eventEditFormState.guest_count);
+  
       await editEvent({
-        variables: { eventId, ...eventEditFormState },
+        variables: {
+          eventId,
+          ...eventEditFormState,
+          budget: isNaN(budgetValue) ? null : budgetValue,
+          guest_count: isNaN(guestCountValue) ? null : guestCountValue,
+        },
       });
       setIsEditing(false);
       // Optionally refetch the data or update the state
