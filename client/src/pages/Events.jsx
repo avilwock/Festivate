@@ -99,6 +99,11 @@ const Events = () => {
           <p>No events found</p>
         )}
 
+        {/* Modal Overlay */}
+        {show && <div className="modal-overlay" onClick={handleClose}></div>}
+
+        {/* Modal */}
+
         <>
           <Button variant="primary" onClick={handleShow}>
             Add New Event
@@ -109,6 +114,7 @@ const Events = () => {
             onHide={handleClose}
             backdrop="static"
             keyboard={false}
+            className="modal-container"
           >
             <Modal.Header closeButton>
               <Modal.Title>New Event</Modal.Title>
