@@ -141,8 +141,7 @@ const resolvers = {
         { _id: taskId},
         { task_name, details, complete },
         { new: true }
-      ).populate('user');
-    
+      )
       if (!updatedTask) {
         throw new Error('Task not found or you do not have permission to edit this task');
       }
