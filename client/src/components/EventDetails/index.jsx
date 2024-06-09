@@ -43,7 +43,7 @@ const EventDetails = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   const handleEditChange = ({ target: { name, value } }) => {
-    
+
     setEventEditFormState({
       ...eventEditFormState,
       [name]: value,
@@ -56,7 +56,7 @@ const EventDetails = () => {
       // Parse budget and guest_count before submitting
       const budgetValue = parseFloat(eventEditFormState.budget);
       const guestCountValue = parseInt(eventEditFormState.guest_count);
-  
+
       await editEvent({
         variables: {
           eventId,
@@ -103,7 +103,7 @@ const EventDetails = () => {
       <p>Food Options: {eventEditFormState.food_options}</p>
       <p>Entertainment: {eventEditFormState.entertainment}</p>
       <p>Decorations: {eventEditFormState.decorations}</p>
-      <p>Details: {eventEditFormState.decorations}</p>
+      <p>Details: {eventEditFormState.details}</p>
 
       {isEditing ? (
         <form onSubmit={handleEditSubmit} className="event-form">
