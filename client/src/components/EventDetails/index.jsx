@@ -1,4 +1,3 @@
-// client/src/components/EventDetails/index.jsx
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams, useNavigate } from 'react-router-dom';
 import { QUERY_EVENT, QUERY_ME } from '../../utils/queries';
@@ -16,6 +15,7 @@ const EventDetails = () => {
   const [editEvent] = useMutation(EDIT_EVENT);
   const [deleteEvent] = useMutation(DELETE_EVENT);
   const [isEditing, setIsEditing] = useState(false);
+
   const [eventEditFormState, setEventEditFormState] = useState({ event_name: '', date: '', location: '', venue_layout: '', theme: '' });
 
   useEffect(() => {
@@ -25,8 +25,10 @@ const EventDetails = () => {
         event_name: event.event_name,
         date: event.date,
         location: event.location,
+
         venue_layout: event.venue_layout,
         theme: event.theme
+
       });
     }
   }, [data]);
@@ -60,7 +62,7 @@ const EventDetails = () => {
         variables: { eventId },
         update: (cache) => {
           const { me } = cache.readQuery({ query: QUERY_ME });
-          const updatedEvents = me.events.filter(event => event._id !== eventId);
+          const updatedEvents = me.events.filter((event) => event._id !== eventId);
           cache.writeQuery({
             query: QUERY_ME,
             data: { me: { ...me, events: updatedEvents } },
@@ -122,6 +124,8 @@ const EventDetails = () => {
             placeholder="Theme"
             className="form-input"
           />
+=======
+         
           <button type="submit">Save</button>
         </form>
       ) : (
