@@ -1,4 +1,3 @@
-// client/src/components/EventDetails/index.jsx
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams, useNavigate } from 'react-router-dom';
 import { QUERY_EVENT, QUERY_ME } from '../../utils/queries';
@@ -16,7 +15,19 @@ const EventDetails = () => {
   const [editEvent] = useMutation(EDIT_EVENT);
   const [deleteEvent] = useMutation(DELETE_EVENT);
   const [isEditing, setIsEditing] = useState(false);
-  const [eventEditFormState, setEventEditFormState] = useState({ event_name: '', date: '', location: '' });
+  const [eventEditFormState, setEventEditFormState] = useState({
+    event_name: '',
+    date: '',
+    location: '',
+    budget: '',
+    guest_count: '',
+    venue_layout: '',
+    theme: '',
+    food_options: '',
+    entertainment: '',
+    decorations: '',
+    details: '',
+  });
 
   useEffect(() => {
     if (data) {
@@ -25,6 +36,14 @@ const EventDetails = () => {
         event_name: event.event_name,
         date: event.date,
         location: event.location,
+        budget: event.budget,
+        guest_count: event.guest_count,
+        venue_layout: event.venue_layout,
+        theme: event.theme,
+        food_options: event.food_options,
+        entertainment: event.entertainment,
+        decorations: event.decorations,
+        details: event.details,
       });
     }
   }, [data]);
@@ -58,7 +77,7 @@ const EventDetails = () => {
         variables: { eventId },
         update: (cache) => {
           const { me } = cache.readQuery({ query: QUERY_ME });
-          const updatedEvents = me.events.filter(event => event._id !== eventId);
+          const updatedEvents = me.events.filter((event) => event._id !== eventId);
           cache.writeQuery({
             query: QUERY_ME,
             data: { me: { ...me, events: updatedEvents } },
@@ -79,31 +98,149 @@ const EventDetails = () => {
 
       {isEditing ? (
         <form onSubmit={handleEditSubmit} className="event-form">
-          <input
-            type="text"
-            name="event_name"
-            value={eventEditFormState.event_name}
-            onChange={handleEditChange}
-            placeholder="Event Name"
-            required
-            className="form-input"
-          />
-          <input
-            type="datetime-local"
-            name="date"
-            value={eventEditFormState.date}
-            onChange={handleEditChange}
-            required
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="location"
-            value={eventEditFormState.location}
-            onChange={handleEditChange}
-            placeholder="Location"
-            className="form-input"
-          />
+          <div className="form-group">
+            <label htmlFor="event_name">Event Name</label>
+            <input
+              type="text"
+              id="event_name"
+              name="event_name"
+              value={eventEditFormState.event_name}
+              onChange={handleEditChange}
+              placeholder="Event Name"
+              required
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="date">Date</label>
+            <input
+              type="datetime-local"
+              id="date"
+              name="date"
+              value={eventEditFormState.date}
+              onChange={handleEditChange}
+              required
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="location">Location</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={eventEditFormState.location}
+              onChange={handleEditChange}
+              placeholder="Location"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="budget">Enter Your Budget</label>
+            <input
+              type="number"
+              id="budget"
+              name="budget"
+              value={eventEditFormState.budget}
+              onChange={handleEditChange}
+              placeholder="Budget"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="guest_count">Guest Count</label>
+            <input
+              type="number"
+              id="guest_count"
+              name="guest_count"
+              value={eventEditFormState.guest_count}
+              onChange={handleEditChange}
+              placeholder="Guest Count"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="venue_layout">Venue Layout</label>
+            <input
+              type="text"
+              id="venue_layout"
+              name="venue_layout"
+              value={eventEditFormState.venue_layout}
+              onChange={handleEditChange}
+              placeholder="Venue Layout"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="theme">Theme</label>
+            <input
+              type="text"
+              id="theme"
+              name="theme"
+              value={eventEditFormState.theme}
+              onChange={handleEditChange}
+              placeholder="Theme"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="food_options">Food Options</label>
+            <input
+              type="text"
+              id="food_options"
+              name="food_options"
+              value={eventEditFormState.food_options}
+              onChange={handleEditChange}
+              placeholder="Food Options"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="entertainment">Entertainment</label>
+            <input
+              type="text"
+              id="entertainment"
+              name="entertainment"
+              value={eventEditFormState.entertainment}
+              onChange={handleEditChange}
+              placeholder="Entertainment"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="decorations">Decorations</label>
+            <input
+              type="text"
+              id="decorations"
+              name="decorations"
+              value={eventEditFormState.decorations}
+              onChange={handleEditChange}
+              placeholder="Decorations"
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="details">Details</label>
+            <textarea
+              id="details"
+              name="details"
+              value={eventEditFormState.details}
+              onChange={handleEditChange}
+              placeholder="Details"
+              className="form-input"
+            />
+          </div>
+
           <button type="submit">Save</button>
         </form>
       ) : (

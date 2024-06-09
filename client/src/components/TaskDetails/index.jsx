@@ -1,4 +1,3 @@
-// client/src/components/TaskDetails/index.jsx
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { QUERY_EVENT } from '../../utils/queries';
@@ -14,7 +13,7 @@ const TaskDetails = () => {
   const [addTask] = useMutation(ADD_TASK);
   const [editTask] = useMutation(EDIT_TASK);
   const [deleteTask] = useMutation(DELETE_TASK, {
-    refetchQueries: [QUERY_EVENT, "event"]
+    refetchQueries: [{ query: QUERY_EVENT, variables: { id: eventId } }],
   });
   const [taskFormState, setTaskFormState] = useState({ task_name: '', details: '', complete: false });
   const [isEditing, setIsEditing] = useState(false);
@@ -28,7 +27,7 @@ const TaskDetails = () => {
   const handleTaskChange = ({ target: { name, value, type, checked } }) => {
     setTaskFormState({
       ...taskFormState,
-      [name]: type === 'checkbox' ? checked:value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -58,10 +57,10 @@ const TaskDetails = () => {
   };
 
   const handleEditTask = (task) => {
-    setTaskFormState({ 
-      task_name: task.task_name, 
-      details: task.details, 
-      complete: Boolean(task.complete)
+    setTaskFormState({
+      task_name: task.task_name,
+      details: task.details,
+      complete: Boolean(task.complete),
     });
     setIsEditing(true);
     setCurrentTaskId(task._id);
@@ -72,7 +71,7 @@ const TaskDetails = () => {
       await deleteTask({
         variables: { taskId },
       });
-      /* refetch();*/
+      refetch();
     } catch (e) {
       console.error('Error deleting task:', e);
     }
@@ -93,10 +92,6 @@ const TaskDetails = () => {
       console.error('Error toggling task completion:', e);
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="task-details-container">
@@ -121,43 +116,26 @@ const TaskDetails = () => {
             className="form-input"
           />
           <input
-            type= "checkbox"
-            name= "complete"
-            value = { taskFormState.complete}
-            onChange = {handleTaskChange}
-            className = "form-input"
+            type="checkbox"
+            name="complete"
+            checked={taskFormState.complete}
+            onChange={handleTaskChange}
+            className="form-input"
           />
           <button type="submit">{isEditing ? 'Save Task' : 'Add Task'}</button>
         </form>
       </div>
       <div className="task-list">
         <ul>
-
-        <li key={event._id} className="event">
-                  <div className="event-info">
-                    <h4>{event.event_name}</h4>
-                    <p>Date: {new Date(event.date).toLocaleDateString()}</p>
-                    <p>Location: {event.location}</p>
-                  </div>
-                  <div className="event-tasks">
-                    <h5>Tasks</h5>
-                    <ul>
-                      {event.tasks.map((task) => (
-                        <li key={task._id} style={{ textDecoration: task.complete ? 'line-through' : 'none' }}>
-                          {task.task_name} - {task.complete ? 'Complete' : 'Incomplete'}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </li>
           {event.tasks.map((task) => (
             <li key={task._id}>
               <span style={{ textDecoration: task.complete ? 'line-through' : 'none' }}>
                 {task.task_name} - {task.details}
               </span>
-              <input type="checkbox"
-              checked={task.complete}
-              onChange={() => handleTaskCompletion(task)}
+              <input
+                type="checkbox"
+                checked={task.complete}
+                onChange={() => handleTaskCompletion(task)}
               />
               <button onClick={() => handleEditTask(task)}>Edit</button>
               <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
