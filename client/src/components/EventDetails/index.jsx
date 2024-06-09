@@ -16,7 +16,7 @@ const EventDetails = () => {
   const [deleteEvent] = useMutation(DELETE_EVENT);
   const [isEditing, setIsEditing] = useState(false);
 
-  const [eventEditFormState, setEventEditFormState] = useState({ event_name: '', date: '', location: '', venue_layout: '', theme: '' });
+  const [eventEditFormState, setEventEditFormState] = useState({ event_name: '', date: '', location: '', venue_layout: '', theme: '', budget: '', guest_count: '', food_options: '', entertainment: '', decorations: '', details: '' });
 
   useEffect(() => {
     if (data) {
@@ -27,7 +27,13 @@ const EventDetails = () => {
         location: event.location,
 
         venue_layout: event.venue_layout,
-        theme: event.theme
+        theme: event.theme,
+        budget: event.budget,
+        guest_count: event.guest_count,
+        food_options: event.food_options,
+        entertainment: event.entertainment,
+        decorations: event.decorations,
+        details: event.details
 
       });
     }
@@ -80,6 +86,14 @@ const EventDetails = () => {
       <h2>{eventEditFormState.event_name}</h2>
       <p>Date: {eventEditFormState.date ? dayjs(eventEditFormState.date).format('MM/DD/YYYY hh:mm') : 'Invalid Date'}</p>
       <p>Location: {eventEditFormState.location}</p>
+      <p>Budget: {eventEditFormState.budget}</p>
+      <p>Guest Count: {eventEditFormState.guest_count}</p>
+      <p>Venue Layout: {eventEditFormState.venue_layout}</p>
+      <p>Theme: {eventEditFormState.theme}</p>
+      <p>Food Options: {eventEditFormState.food_options}</p>
+      <p>Entertainment: {eventEditFormState.entertainment}</p>
+      <p>Decorations: {eventEditFormState.decorations}</p>
+      <p>Details: {eventEditFormState.decorations}</p>
 
       {isEditing ? (
         <form onSubmit={handleEditSubmit} className="event-form">
@@ -108,7 +122,7 @@ const EventDetails = () => {
             placeholder="Location"
             className="form-input"
           />
-           <input
+          <input
             type="text"
             name="venue_layout"
             value={eventEditFormState.venue_layout}
@@ -124,8 +138,56 @@ const EventDetails = () => {
             placeholder="Theme"
             className="form-input"
           />
+          <input
+            type="text"
+            name="budget"
+            value={eventEditFormState.budget}
+            onChange={handleEditChange}
+            placeholder="Budget"
+            className="form-input"
+          />
+          <input
+            type="text"
+            name="guest_count"
+            value={eventEditFormState.guest_count}
+            onChange={handleEditChange}
+            placeholder="Guest Count"
+            className="form-input"
+          />
+          <input
+            type="text"
+            name="food_options"
+            value={eventEditFormState.food_options}
+            onChange={handleEditChange}
+            placeholder="Food Options"
+            className="form-input"
+          />
+          <input
+            type="text"
+            name="entertainment"
+            value={eventEditFormState.entertainment}
+            onChange={handleEditChange}
+            placeholder="Entertainment"
+            className="form-input"
+          />
+          <input
+            type="text"
+            name="decorations"
+            value={eventEditFormState.decorations}
+            onChange={handleEditChange}
+            placeholder="Decorations"
+            className="form-input"
+          />
+          <input
+            type="text"
+            name="details"
+            value={eventEditFormState.details}
+            onChange={handleEditChange}
+            placeholder="Details"
+            className="form-input"
+          />
 =======
-         
+
           <button type="submit">Save</button>
         </form>
       ) : (
