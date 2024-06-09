@@ -37,6 +37,17 @@
     padding: 10px;
     background: #f9f9f9;
     border-radius: 10px;
+    line-height: 1.5;
+}
+
+.home-summary a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.home-summary a:hover {
+    color: #0056b3;
 }
 
 /* Media Queries for responsiveness */
