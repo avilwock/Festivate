@@ -4,7 +4,7 @@
 const InstallButton = () => {
   const handleInstallClick = () => {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js')
+      navigator.serviceWorker.register('/sw.js')
         .then(() => {
           console.log('Service Worker registered successfully');
           // Handle any installation prompts here
