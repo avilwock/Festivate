@@ -5,8 +5,8 @@ const urlsToCache = [
   '/vite.svg',
   '/manifest.json',
   '/src/main.jsx',
-  '/icons/Festivate500.png'
-  '/icons/Festivate192.png'
+  '/icons/Festivate500.png',
+  '/icons/Festlogo.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -22,7 +22,12 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
+        // Return the cached response if found, otherwise fetch from the network
         return response || fetch(event.request);
+      })
+      .catch((error) => {
+        console.error('Fetch failed; returning offline page instead.', error);
+        return caches.match('/offline.html'); // Make sure to cache an offline.html page
       })
   );
 });

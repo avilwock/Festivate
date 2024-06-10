@@ -10,21 +10,21 @@ export default defineConfig({
       manifest: {
         name: 'Festivate',
         short_name: 'Festivate',
-        description: 'Just Another Text Editor',
+        description: 'Event Planner',
         start_url: '/',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#ffffff',
         icons: [
           {
-            src: '/icons/Festivate192.png',
+            src: '/icons/Festlogo.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: '',
-            sizes: '',
-            type: ''
+            src: '/icons/Festivate500.png',
+            sizes: '500x500',
+            type: 'image/png'
           }
         ]
       }

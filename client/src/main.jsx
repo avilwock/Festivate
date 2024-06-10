@@ -40,10 +40,9 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
-);
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+root.render(
   <RouterProvider router={router} />
 );
