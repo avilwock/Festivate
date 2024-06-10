@@ -393,6 +393,7 @@ button:hover {
   transform: translate(-50%, -50%);
   z-index: 1050;
   background-color: white;
+  text-align: center;
 }
 
 .modal-header {
@@ -405,6 +406,58 @@ button:hover {
   justify-content: center;
   text-align: center;
   padding: .75rem;
+}
+
+/* Event Details Styling */
+
+.event-details-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.event-details-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.event-details-text {
+  width: 100%;
+}
+
+.event-details-text h2,
+.event-details-text p {
+  margin: 10px 0;
+}
+
+.event-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.form-input {
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.event-details {
+  margin: 0 auto;
+  max-width: 600px;
+  text-align: center;
 }
 
 /* Tasks CSS styling */

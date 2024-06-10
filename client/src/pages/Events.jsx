@@ -16,7 +16,7 @@ const Events = () => {
     event_name: '',
     date: '',
     location: '',
-    budget:null,
+    budget: null,
     guest_count: null,
     venue_layout: '',
     theme: '',
@@ -43,7 +43,7 @@ const Events = () => {
       details: '',
     });
   };
-  
+
   const handleShow = () => {
     setShow(true);
   };
@@ -75,7 +75,7 @@ const Events = () => {
       // Convert budget and guest_count to numeric values
       const budgetValue = parseFloat(formState.budget); // Convert to float
       const guestCountValue = parseInt(formState.guest_count); // Convert to integer
- 
+
       const { data } = await addEvent({
         variables: {
           ...formState,
@@ -83,7 +83,7 @@ const Events = () => {
           guest_count: guestCountValue,
         },
       });
-  
+
       if (data) {
         refetch();
         handleClose();
@@ -152,6 +152,8 @@ const Events = () => {
         ) : (
           <p>No events found. To add a new event, please select the add button below.</p>
         )}
+
+        {show && <div className="modal-overlay" onClick={handleClose}></div>}
 
         <Button variant="primary" onClick={handleShow}>
           Add New Event
