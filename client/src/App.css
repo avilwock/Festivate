@@ -126,8 +126,7 @@ h2 {
   color: #333;
 }
 
-input[type="text"],
-input[type="password"] {
+.form-input {
   width: 100%;
   padding: 0.75rem;
   margin-bottom: 1rem;
@@ -343,7 +342,6 @@ button:hover {
 .event-details {
   margin-top: 0.5rem;
   padding: 0.5rem;
-  border-top: 1px solid #ddd;
   width: 100%;
   text-align: center;
 }
@@ -414,7 +412,7 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 75vh;
   width: 100%;
 }
 
