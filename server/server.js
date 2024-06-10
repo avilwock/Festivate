@@ -32,14 +32,14 @@ async function startApolloServer() {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 
     app.get('/service-worker.js', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/service-worker.js'), {
+      res.sendFile(path.join(__dirname, '../client/dist/sw.js'), {
         headers: {
           'Content-Type': 'application/javascript'
         }
       });
     });
 
-    
+
     app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
