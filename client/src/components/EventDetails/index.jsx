@@ -199,8 +199,6 @@ const EventDetails = () => {
               placeholder="Details"
               className="form-input"
             />
-=======
-
           <button type="submit">Save</button>
         </form>
       ) : (

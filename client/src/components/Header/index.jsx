@@ -1,13 +1,15 @@
 // Header.jsx
-// import React from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Auth from '../../utils/auth';
 import InstallButton from '../InstallButton';
 
 const Header = () => {
+  const navigate = useNavigate();
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
+    navigate('/Home');
   };
 
   return (

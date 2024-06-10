@@ -1,5 +1,4 @@
 // client/src/pages/Profile.jsx
-import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 import { EDIT_TASK } from '../utils/mutations';
