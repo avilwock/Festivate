@@ -92,110 +92,113 @@ const EventDetails = () => {
   };
 
   return (
-    <div className="profile-page">
-      <h2>{eventEditFormState.event_name}</h2>
-      <p>Date: {eventEditFormState.date ? dayjs(eventEditFormState.date).format('MM/DD/YYYY hh:mm') : 'Invalid Date'}</p>
-      <p>Location: {eventEditFormState.location}</p>
-      <p>Budget: {eventEditFormState.budget}</p>
-      <p>Guest Count: {eventEditFormState.guest_count}</p>
-      <p>Venue Layout: {eventEditFormState.venue_layout}</p>
-      <p>Theme: {eventEditFormState.theme}</p>
-      <p>Food Options: {eventEditFormState.food_options}</p>
-      <p>Entertainment: {eventEditFormState.entertainment}</p>
-      <p>Decorations: {eventEditFormState.decorations}</p>
-      <p>Details: {eventEditFormState.details}</p>
+    <div className="event-details-container">
+      <div className="event-deatils-content">
+        <div className="event-details">
+          <h2>{eventEditFormState.event_name}</h2>
+          <p>Date: {eventEditFormState.date ? dayjs(eventEditFormState.date).format('MM/DD/YYYY hh:mm') : 'Invalid Date'}</p>
+          <p>Location: {eventEditFormState.location}</p>
+          <p>Budget: {eventEditFormState.budget}</p>
+          <p>Guest Count: {eventEditFormState.guest_count}</p>
+          <p>Venue Layout: {eventEditFormState.venue_layout}</p>
+          <p>Theme: {eventEditFormState.theme}</p>
+          <p>Food Options: {eventEditFormState.food_options}</p>
+          <p>Entertainment: {eventEditFormState.entertainment}</p>
+          <p>Decorations: {eventEditFormState.decorations}</p>
+          <p>Details: {eventEditFormState.details}</p>
+        </div>
 
-      {isEditing ? (
-        <form onSubmit={handleEditSubmit} className="event-form">
-          <input
-            type="text"
-            name="event_name"
-            value={eventEditFormState.event_name}
-            onChange={handleEditChange}
-            placeholder="Event Name"
-            required
-            className="form-input"
-          />
-          <input
-            type="datetime-local"
-            name="date"
-            value={eventEditFormState.date}
-            onChange={handleEditChange}
-            required
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="location"
-            value={eventEditFormState.location}
-            onChange={handleEditChange}
-            placeholder="Location"
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="venue_layout"
-            value={eventEditFormState.venue_layout}
-            onChange={handleEditChange}
-            placeholder="Venue Layout"
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="theme"
-            value={eventEditFormState.theme}
-            onChange={handleEditChange}
-            placeholder="Theme"
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="budget"
-            value={eventEditFormState.budget}
-            onChange={handleEditChange}
-            placeholder="Budget"
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="guest_count"
-            value={eventEditFormState.guest_count}
-            onChange={handleEditChange}
-            placeholder="Guest Count"
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="food_options"
-            value={eventEditFormState.food_options}
-            onChange={handleEditChange}
-            placeholder="Food Options"
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="entertainment"
-            value={eventEditFormState.entertainment}
-            onChange={handleEditChange}
-            placeholder="Entertainment"
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="decorations"
-            value={eventEditFormState.decorations}
-            onChange={handleEditChange}
-            placeholder="Decorations"
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="details"
-            value={eventEditFormState.details}
-            onChange={handleEditChange}
-            placeholder="Details"
-            className="form-input"
-          />
+        {isEditing ? (
+          <form onSubmit={handleEditSubmit} className="event-form">
+            <input
+              type="text"
+              name="event_name"
+              value={eventEditFormState.event_name}
+              onChange={handleEditChange}
+              placeholder="Event Name"
+              required
+              className="form-input"
+            />
+            <input
+              type="datetime-local"
+              name="date"
+              value={eventEditFormState.date}
+              onChange={handleEditChange}
+              required
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="location"
+              value={eventEditFormState.location}
+              onChange={handleEditChange}
+              placeholder="Location"
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="venue_layout"
+              value={eventEditFormState.venue_layout}
+              onChange={handleEditChange}
+              placeholder="Venue Layout"
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="theme"
+              value={eventEditFormState.theme}
+              onChange={handleEditChange}
+              placeholder="Theme"
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="budget"
+              value={eventEditFormState.budget}
+              onChange={handleEditChange}
+              placeholder="Budget"
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="guest_count"
+              value={eventEditFormState.guest_count}
+              onChange={handleEditChange}
+              placeholder="Guest Count"
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="food_options"
+              value={eventEditFormState.food_options}
+              onChange={handleEditChange}
+              placeholder="Food Options"
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="entertainment"
+              value={eventEditFormState.entertainment}
+              onChange={handleEditChange}
+              placeholder="Entertainment"
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="decorations"
+              value={eventEditFormState.decorations}
+              onChange={handleEditChange}
+              placeholder="Decorations"
+              className="form-input"
+            />
+            <input
+              type="text"
+              name="details"
+              value={eventEditFormState.details}
+              onChange={handleEditChange}
+              placeholder="Details"
+              className="form-input"
+            />
 =======
 
           <button type="submit">Save</button>
@@ -208,6 +211,7 @@ const EventDetails = () => {
       )}
 
       <TaskDetails />
+      </div>
     </div>
   );
 };
