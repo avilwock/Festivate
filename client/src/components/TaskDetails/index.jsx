@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { QUERY_EVENT } from '../../utils/queries';
 import { ADD_TASK, EDIT_TASK, DELETE_TASK } from '../../utils/mutations';
-import { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+
 
 const TaskDetails = () => {
   const { eventId } = useParams();
@@ -15,16 +17,35 @@ const TaskDetails = () => {
   const [deleteTask] = useMutation(DELETE_TASK, {
     refetchQueries: [{ query: QUERY_EVENT, variables: { id: eventId } }],
   });
-  const [taskFormState, setTaskFormState] = useState({ task_name: '', details: '', complete: false });
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+    setTaskFormState({
+      task_name: '',
+      details: '',
+      complete: false,
+    });
+  };
+
+  const handleShow = () => {
+    setShow(true);
+  };
   const [isEditing, setIsEditing] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState(null);
+  const [taskFormState, setTaskFormState] = useState({
+    task_name: '',
+    details: '',
+    complete: false,
+  });
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   const { event } = data;
 
-  const handleTaskChange = ({ target: { name, value, type, checked } }) => {
+  const handleTaskChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setTaskFormState({
       ...taskFormState,
       [name]: type === 'checkbox' ? checked : value,
@@ -39,6 +60,7 @@ const TaskDetails = () => {
           variables: { taskId: currentTaskId, ...taskFormState },
         });
         refetch();
+        setShow(false);
       } catch (e) {
         console.error('Error editing task:', e);
       }
@@ -48,6 +70,7 @@ const TaskDetails = () => {
           variables: { ...taskFormState, eventId },
         });
         refetch();
+        setShow(false);
       } catch (e) {
         console.error('Error adding task:', e);
       }
@@ -60,10 +83,11 @@ const TaskDetails = () => {
     setTaskFormState({
       task_name: task.task_name,
       details: task.details,
-      complete: Boolean(task.complete),
+      complete: task.complete,
     });
     setIsEditing(true);
     setCurrentTaskId(task._id);
+    setShow(true);
   };
 
   const handleDeleteTask = async (taskId) => {
@@ -95,36 +119,48 @@ const TaskDetails = () => {
 
   return (
     <div className="task-details-container">
-      <div className="task-form">
-        <h3>Tasks</h3>
-        <form onSubmit={handleTaskSubmit} className="form-input-container">
-          <input
-            type="text"
-            name="task_name"
-            value={taskFormState.task_name}
-            onChange={handleTaskChange}
-            placeholder="Task Name"
-            required
-            className="form-input"
-          />
-          <input
-            type="text"
-            name="details"
-            value={taskFormState.details}
-            onChange={handleTaskChange}
-            placeholder="Details"
-            className="form-input"
-          />
-          <input
-            type="checkbox"
-            name="complete"
-            checked={taskFormState.complete}
-            onChange={handleTaskChange}
-            className="form-input"
-          />
-          <button type="submit">{isEditing ? 'Save Task' : 'Add Task'}</button>
-        </form>
-      </div>
+      <Button variant="primary" onClick={handleShow}>
+          Add New Task
+        </Button>
+
+        <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} className="modal-container">
+          <Modal.Header closeButton>
+            <Modal.Title>New Task</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form onSubmit={handleTaskSubmit} className="event-form">
+              <div className="form-input-container">
+                <input
+                  className="form-input"
+                  placeholder="Task"
+                  name="task_name"
+                  type="text"
+                  value={setTaskFormState.task_name}
+                  onChange={handleTaskChange}
+                  required
+                />
+                <input
+                  className="form-input"
+                  placeholder="details"
+                  name="details"
+                  type="text"
+                  value={setTaskFormState.details}
+                  onChange={handleTaskChange}
+                  required
+                />
+              </div>
+              <button className="btn btn-block btn-info" type="submit">
+                Add Task
+              </button>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
       <div className="task-list">
         <ul>
           {event.tasks.map((task) => (
@@ -137,8 +173,12 @@ const TaskDetails = () => {
                 checked={task.complete}
                 onChange={() => handleTaskCompletion(task)}
               />
-              <button onClick={() => handleEditTask(task)}>Edit</button>
-              <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
+              <Button variant="outline-secondary" onClick={() => handleEditTask(task)}>
+                Edit
+              </Button>
+              <Button variant="outline-danger" onClick={() => handleDeleteTask(task._id)}>
+                Delete
+              </Button>
             </li>
           ))}
         </ul>

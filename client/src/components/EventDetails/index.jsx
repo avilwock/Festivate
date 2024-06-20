@@ -93,8 +93,8 @@ const EventDetails = () => {
 
   return (
     <div className="event-details-container">
-      <div className="event-deatils-content">
-        <div className="event-details">
+      <div className="event-details-content">
+        <div className="event-details-text">
           <h2>{eventEditFormState.event_name}</h2>
           <p>Date: {eventEditFormState.date ? dayjs(eventEditFormState.date).format('MM/DD/YYYY hh:mm') : 'Invalid Date'}</p>
           <p>Location: {eventEditFormState.location}</p>
@@ -110,106 +110,140 @@ const EventDetails = () => {
 
         {isEditing ? (
           <form onSubmit={handleEditSubmit} className="event-form">
-            <input
-              type="text"
-              name="event_name"
-              value={eventEditFormState.event_name}
-              onChange={handleEditChange}
-              placeholder="Event Name"
-              required
-              className="form-input"
-            />
-            <input
-              type="datetime-local"
-              name="date"
-              value={eventEditFormState.date}
-              onChange={handleEditChange}
-              required
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="location"
-              value={eventEditFormState.location}
-              onChange={handleEditChange}
-              placeholder="Location"
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="venue_layout"
-              value={eventEditFormState.venue_layout}
-              onChange={handleEditChange}
-              placeholder="Venue Layout"
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="theme"
-              value={eventEditFormState.theme}
-              onChange={handleEditChange}
-              placeholder="Theme"
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="budget"
-              value={eventEditFormState.budget}
-              onChange={handleEditChange}
-              placeholder="Budget"
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="guest_count"
-              value={eventEditFormState.guest_count}
-              onChange={handleEditChange}
-              placeholder="Guest Count"
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="food_options"
-              value={eventEditFormState.food_options}
-              onChange={handleEditChange}
-              placeholder="Food Options"
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="entertainment"
-              value={eventEditFormState.entertainment}
-              onChange={handleEditChange}
-              placeholder="Entertainment"
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="decorations"
-              value={eventEditFormState.decorations}
-              onChange={handleEditChange}
-              placeholder="Decorations"
-              className="form-input"
-            />
-            <input
-              type="text"
-              name="details"
-              value={eventEditFormState.details}
-              onChange={handleEditChange}
-              placeholder="Details"
-              className="form-input"
-            />
-          <button type="submit">Save</button>
-        </form>
-      ) : (
-        <>
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
-        </>
-      )}
-
-      <TaskDetails />
+            <div className="form-group">
+              <label htmlFor="event_name">Event Name:</label>
+              <input
+                type="text"
+                name="event_name"
+                value={eventEditFormState.event_name}
+                onChange={handleEditChange}
+                placeholder="Event Name"
+                required
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="date">Date:</label>
+              <input
+                type="datetime-local"
+                name="date"
+                value={eventEditFormState.date}
+                onChange={handleEditChange}
+                required
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="location">Location:</label>
+              <input
+                type="text"
+                name="location"
+                value={eventEditFormState.location}
+                onChange={handleEditChange}
+                placeholder="Location"
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="venue_layout">Venue Layout:</label>
+              <input
+                type="text"
+                name="venue_layout"
+                value={eventEditFormState.venue_layout}
+                onChange={handleEditChange}
+                placeholder="Venue Layout"
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="theme">Theme:</label>
+              <input
+                type="text"
+                name="theme"
+                value={eventEditFormState.theme}
+                onChange={handleEditChange}
+                placeholder="Theme"
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="budget">Budget:</label>
+              <input
+                type="text"
+                name="budget"
+                value={eventEditFormState.budget}
+                onChange={handleEditChange}
+                placeholder="Budget"
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="guest_count">Guest Count:</label>
+              <input
+                type="text"
+                name="guest_count"
+                value={eventEditFormState.guest_count}
+                onChange={handleEditChange}
+                placeholder="Guest Count"
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="food_options">Food Options:</label>
+              <input
+                type="text"
+                name="food_options"
+                value={eventEditFormState.food_options}
+                onChange={handleEditChange}
+                placeholder="Food Options"
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="entertainment">Entertainment:</label>
+              <input
+                type="text"
+                name="entertainment"
+                value={eventEditFormState.entertainment}
+                onChange={handleEditChange}
+                placeholder="Entertainment"
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="decorations">Decorations:</label>
+              <input
+                type="text"
+                name="decorations"
+                value={eventEditFormState.decorations}
+                onChange={handleEditChange}
+                placeholder="Decorations"
+                className="form-input"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="details">Details:</label>
+              <input
+                type="text"
+                name="details"
+                value={eventEditFormState.details}
+                onChange={handleEditChange}
+                placeholder="Details"
+                className="form-input"
+              />
+            </div>
+            <button type="submit">Save</button>
+          </form>
+        ) : (
+          <>
+            <button onClick={() => setIsEditing(true)}>Edit</button>
+            <button onClick={handleDelete}>Delete</button>
+          </>
+        )}
       </div>
+
+      {/* Move TaskDetails here */}
+      <TaskDetails />
     </div>
   );
 };

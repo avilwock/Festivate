@@ -13,7 +13,7 @@ const Footer = () => {
             &larr; Go Back
           </button>
         )}
-        <h4>&copy; {new Date().getFullYear()} - Festivate</h4>
+        <h4>&copy; 2024 - Festivate</h4>
       </div>
     </footer>
   );

@@ -358,6 +358,30 @@ button:hover {
   text-align: center;
 }
 
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.form-group label {
+  flex: 0 0 200px; /* Adjust the width of the label as needed */
+  text-align: left;
+  margin-right: 20px;
+}
+
+.form-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  max-width: 300px;
+}
+
 .form-input-container {
   width: 100%;
 }
@@ -410,23 +434,28 @@ button:hover {
 
 .event-details-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 75vh;
-  width: 100%;
+  padding: 20px;
 }
 
+/* Container for the event details */
 .event-details-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  text-align: left;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   background-color: #f9f9f9;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px; /* Add some space between the details and the tasks */
 }
 
+/* Ensure the text inside the event details container is properly styled */
 .event-details-text {
   width: 100%;
 }
@@ -436,6 +465,7 @@ button:hover {
   margin: 10px 0;
 }
 
+/* Form styling for the event form */
 .event-form {
   display: flex;
   flex-direction: column;
@@ -443,37 +473,62 @@ button:hover {
   width: 100%;
 }
 
-.form-input {
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
-  padding: 8px;
   width: 100%;
-  max-width: 300px;
+  max-width: 600px;
+}
+
+.form-group label {
+  flex: 0 0 200px; /* Adjust the width of the label as needed */
+  text-align: left;
+  margin-right: 20px;
+}
+
+.form-input {
+  flex: 1;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box;
+  max-width: 300px;
 }
 
 .event-details {
   margin: 0 auto;
   max-width: 600px;
-  text-align: center;
+  text-align: left;
 }
 
-/* Tasks CSS styling */
-
-.task-form {
-  width: 100%;
-  max-width: 400px;
-  margin: 0;
-}
-
+/* Styling for the tasks section */
 .task-details-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  width: 100%;
+  max-width: 600px;
+}
+
+.task-details-modal {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-details-container .modal-dialog {
+  max-width: 80%;
 }
 
 .task-form {
   flex: 1;
   padding: 1rem;
-  border-right: 1px solid #ccc;
 }
 
 .task-list {
