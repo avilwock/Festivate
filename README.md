@@ -42,6 +42,23 @@ No istallation needed. Please select the link to the application here: [Festivat
 
 Select the link to sign up or log in and start with planning your event. 
 
+Homepage
+![alt text](client/src/assets/Festivate-Home.png)
+
+Login Page
+![alt text](client/src/assets/Festivate-Login.png)
+
+Signup Page
+![alt text](client/src/assets/Festivate-Signup.png)
+
+Events Landing Page
+![alt text](client/src/assets/Festivate-EventsPage.png)
+
+Events Page
+![alt text](<client/src/assets/Festivate IndividualEvent.png>)
+
+Profile Page
+![alt text](client/src/assets/FestivateProfile.png)
 
 ## Links
 
