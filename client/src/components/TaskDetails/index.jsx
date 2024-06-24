@@ -119,10 +119,7 @@ const TaskDetails = () => {
 
   return (
     <div className="task-details-container">
-      <Button variant="primary" onClick={handleShow}>
-          Add New Task
-        </Button>
-
+      
         <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} className="modal-container">
           <Modal.Header closeButton>
             <Modal.Title>New Task</Modal.Title>
@@ -165,22 +162,29 @@ const TaskDetails = () => {
         <ul>
           {event.tasks.map((task) => (
             <li key={task._id}>
-              <span style={{ textDecoration: task.complete ? 'line-through' : 'none' }}>
-                {task.task_name} - {task.details}
-              </span>
+              <div className = "task-item">
               <input
                 type="checkbox"
                 checked={task.complete}
                 onChange={() => handleTaskCompletion(task)}
               />
+               <span style={{ textDecoration: task.complete ? 'line-through' : 'none' }}>
+                {task.task_name} - {task.details}
+              </span>
+              <div className ="task-buttons">
               <Button variant="outline-secondary" onClick={() => handleEditTask(task)}>
                 Edit
               </Button>
-              <Button variant="outline-danger" onClick={() => handleDeleteTask(task._id)}>
+              <Button variant="outline-secondary" onClick={() => handleDeleteTask(task._id)}>
                 Delete
               </Button>
+              </div>
+              </div>
             </li>
           ))}
+          <Button className = "new-task" variant="primary" onClick={handleShow}>
+          Add New Task
+      </Button>
         </ul>
       </div>
     </div>

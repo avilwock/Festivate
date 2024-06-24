@@ -236,8 +236,10 @@ const EventDetails = () => {
           </form>
         ) : (
           <>
-            <button onClick={() => setIsEditing(true)}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
+             <div className="event-details-buttons">
+                <button onClick={() => setIsEditing(true)}>Edit</button>
+                <button onClick={handleDelete}>Delete</button>
+             </div>
           </>
         )}
       </div>

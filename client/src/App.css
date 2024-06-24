@@ -438,6 +438,7 @@ button:hover {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  
 }
 
 /* Container for the event details */
@@ -453,6 +454,24 @@ button:hover {
   width: 100%;
   max-width: 600px;
   margin-bottom: 20px; /* Add some space between the details and the tasks */
+}
+
+/* Wrap the buttons in a flex container */
+.event-details-buttons {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  margin-top: 20px; /* Add some margin if needed */
+}
+
+.event-details-buttons button {
+  display: inline-block;
+}
+
+.event-details-text h2 {
+  display: flex;
+  font-size: 35px;
+  justify-content: center;
+  padding-bottom: 20px;
 }
 
 /* Ensure the text inside the event details container is properly styled */
@@ -549,7 +568,30 @@ button:hover {
   margin-bottom: 0;
 }
 
+.task-list button {
+  margin-right: 15px;
+}
 .task-list li span {
   display: block;
   margin-bottom: 0.5rem;
+}
+
+button {
+  padding: 8px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.task-item span {
+  margin-top: 9px;
+  display:flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  margin-right: 8px;
 }
